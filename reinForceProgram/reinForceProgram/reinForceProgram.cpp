@@ -42,7 +42,7 @@ int main()
         else
             cout << "실패" << endl;
     }
-    else if (14 <= iUpgrade && iUpgrade <= 15)
+    else if (14 <= iUpgrade && iUpgrade <= 18)
     {
         if (fPercent <= 0.01f)
             cout << "강화성공" << endl;
@@ -51,7 +51,7 @@ int main()
     }
     else
     {
-        cout << "강화 할 수 없습니다." << endl;
+        cout << "더 이상 강화 할 수 없습니다." << endl;
     }
 
 }
