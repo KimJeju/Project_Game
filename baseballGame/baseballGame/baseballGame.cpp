@@ -42,6 +42,8 @@ int main()
 		cout << "1 ~ 9 사이에 숫자를 입력하세요(0:종료) : \n";
 		cin >> iInput[0] >> iInput[1] >> iInput[2];
 
+		
+
 		if (iInput[0] == 0 || iInput[1] == 0 || iInput[2] == 0)
 			break;
 
@@ -91,20 +93,23 @@ int main()
 			}
 		}
 
-		if (iStrike == 3)
-		{ 
-			cout << "정답입니다" << endl;
-			break;
-		}
-		else if (iStrike == 0 && iBall == 0)
-			cout << "Out" << endl;
+		
 
-		else
-			cout << iStrike <<  "Strike" << "\t" << iBall << "Ball" << endl;
+			if (iStrike == 3)
+			{
+				cout << "정답입니다" << endl;
+				break;
+			}
+			else if (iStrike == 0 && iBall == 0)
+				cout << "Out" << endl;
 
-		++iGameCount;
+			else
+				cout << iStrike << "Strike" << "\t" << iBall << "Ball" << endl;
 
-	};
+			++iGameCount;
+
+			}
+
 
 	return 0;
 
