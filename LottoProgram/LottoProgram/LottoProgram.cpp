@@ -46,5 +46,8 @@ int main()
 	};
 
 	cout << "보너스번호" << iLotto[6] << endl;
+
+
+	system("pause");
 }
 
