@@ -1,322 +1,415 @@
-﻿#include <time.h>
-#include <iostream>
+﻿#include <iostream>
+#include "time.h"
+#include "conio.h"
+
 using namespace std;
 
+/*
 
-enum Ai_MODE
-{
-	AM_EASY = 1,
-	AM_HARD
+혼자 하는 빙고게임 만들기!!!
 
-};
+숫자는 1 ~ 25
+
+5 줄 빙고를 완성하면 게임 끝
+
+0을 입력하면 게임 종료!
+
+*/
+
+/*
+
+AI EASY 모드는 랜덤으로 숫자 선택
+
+AI HARD 모드는 각 배열 요소에 점수를 넣어주는 방식.
+
+그리고 점수가 가장 높은 요소를 빙고숫자로 선택
+
+*/
+
 
 int main()
 {
+	int arr[25];	// 플레이어의 빙고판
+	int arrAI[25];	// AI의 빙고판
+
+	// 빙고판에 숫자 넣기
+	for (int i = 0; i < 25; ++i)
+	{
+		arr[i] = i + 1;
+		arrAI[i] = i + 1;
+	}
+
 	srand((unsigned int)time(0));
 
-	int iNumber[25] = {};
-	int iAiNumber[25] = {};
+	// 숫자 SHUFFLE
+	for (int i = 0; i < 100; ++i)
+	{
+		// Player
+		int idx1 = rand() % 25; // 0 에서 24의 숫자가 랜덤생성
+		int idx2 = rand() % 25;
+		int temp;
 
-	// 1 ~ 25 까지 숫자를 넣어준다
+		temp = arr[idx1];
+		arr[idx1] = arr[idx2];
+		arr[idx2] = temp;
+
+		// AI
+		idx1 = rand() % 25; // 0 에서 24의 숫자가 랜덤생성
+		idx2 = rand() % 25;
+
+		temp = arrAI[idx1];
+		arrAI[idx1] = arrAI[idx2];
+		arrAI[idx2] = temp;
+	}
+
+
+
+	// AI의 픽 설정 <쉬움>
+	// 쉬운 AI
+	int easyAI;
+	int easyAIPicks[25];
 
 	for (int i = 0; i < 25; ++i)
 	{
-		iNumber[i] = i + 1;
-		iAiNumber[i] = i + 1;
+		easyAIPicks[i] = i + 1;
 	}
 
-	//숫자를 섞어준다
-
-	int iTemp, idx1, idx2;
 	for (int i = 0; i < 100; ++i)
 	{
-		idx1 = rand() % 25;
-		idx2 = rand() % 25;
+		int idx1 = rand() % 25;
+		int idx2 = rand() % 25;
+		int temp;
 
-		iTemp = iNumber[idx1];
-		iNumber[idx1] = iNumber[idx2];
-		iNumber[idx2] = iTemp;
-
-		//Ai 숫자도 섞어준다
-		idx1 = rand() % 25;
-		idx2 = rand() % 25;
-
-		iTemp = iAiNumber[idx1];
-		iAiNumber[idx1] = iAiNumber[idx2];
-		iAiNumber[idx2] = iTemp;
-
-
-	}
-
-	int iBingo = 0, iAiBingo = 0;
-	int iAiMode;
-	// Ai 난이도 선택한다.
-	while (true)
-	{
-		system("cls");
-
-		cout << "1 : Easy" << endl;
-		cout << "2 : Hard" << endl;
-		cout << "AI 모드를 선택하세요" << endl;
-
-		cin >> iAiMode;
-
-		if (iAiMode >= AM_EASY && iAiMode <= AM_HARD)
-			break;
+		temp = easyAIPicks[idx2];
+		easyAIPicks[idx2] = easyAIPicks[idx1];
+		easyAIPicks[idx1] = temp;
 	}
 
 
 
+	enum AI_MODE {
+		AI_EASY = 1,
+		AI_HARD
+	};
 
-	//선택안된 목록 배열을 만들어준다.
 
-	int iNoneSelect[25] = {};
+	int count = 0;	// 진행 횟수	
+	int inputDifficulty = 0;	// 난이도
+	bool levelIsNotChecked = true;
 
-	//선택  안된 숫자 개수를 저장한다
-
-	int iNoneSelectCount = 0;
+	int aiPick = 0;
+	int aiIndex = 0;	// 쉬운 AI index
+	int assessmentArr[25] = {};	// AI 평가점수 배열
 
 	while (true)
 	{
+		while (levelIsNotChecked == true)
+		{
+			system("cls");
+			cout << " 난이도를 선택 하세요..." << endl;
+			cout << " 1 : 쉬움" << endl;
+			cout << " 2 : 어려움" << endl;
+
+			cin >> inputDifficulty;
+
+			if (inputDifficulty < AI_EASY || AI_HARD < inputDifficulty)
+			{
+				continue;
+			}
+			else
+			{
+				levelIsNotChecked = false;
+			}
+		}
+
+		// 빙고판 프린트
 		system("cls");
-		cout << "================= Player =================" << endl;
-		//5x5 출력
+		if (inputDifficulty == AI_EASY) cout << "[ 난 이 도 : EASY ]" << endl;
+		if (inputDifficulty == AI_HARD) cout << "[ 난 이 도 : HARD ]" << endl;
+
+		cout << "============= Player =============" << endl;
 		for (int i = 0; i < 5; ++i)
 		{
 			for (int j = 0; j < 5; ++j)
 			{
-				if (iNumber[i * 5 + j] == INT_MAX)
-					cout << "*\t";
-
-				else
-					cout << iNumber[i * 5 + j] << "\t";
+				if (arr[i * 5 + j] == 0)	cout << "■" << "\t";
+				else                        cout << arr[i * 5 + j] << "\t";
 			}
-			cout << endl;
+			cout << endl << endl;
 		}
 
-		cout << "Player Bingo Line: " << iBingo << endl << endl;
-
-		//Ai 빙고판 출력
-		cout << "=================== Ai ===================" << endl;
-
+		cout << "============== A  I ==============" << endl;
 		for (int i = 0; i < 5; ++i)
 		{
 			for (int j = 0; j < 5; ++j)
 			{
-				if (iAiNumber[i * 5 + j] == INT_MAX)
-					cout << "*\t";
+				if (arrAI[i * 5 + j] == 0)	cout << "■" << "\t";
+				else                        cout << arrAI[i * 5 + j] << "\t";
 
-				else
-					cout << iAiNumber[i * 5 + j] << "\t";
+
 			}
-			cout << endl;
+			cout << endl << endl;
 		}
 
-		//Ai빙고 줄 수 출력
-		cout << "Ai Bingo Line :" << iAiBingo << endl;
-
-
-		//줄수가 5 이상일 경우 게임을 종료한다
-		if (iBingo >= 5)
+		// AI의 평가배열 점수판을 출력
+		cout << "========== AI DEBUGGING ==========" << endl;
+		for (int i = 0; i < 5; ++i)
 		{
-			cout << "Player 승리" << endl;
-			break;
+			for (int j = 0; j < 5; ++j)
+			{
+				cout << assessmentArr[i * 5 + j] << "\t";
+			}
+			cout << endl << endl;
 		}
+		cout << "==================================" << endl;
 
-		else if (iAiBingo >= 5)
+
+
+		// 빙고 판정
+		int bingoCount = 0;
+		int bingoCountAI = 0;
+
+		// 가로 판정
+		for (int i = 0; i < 5; ++i)
 		{
-			cout << "Ai 승리" << endl;
+			int sum = arr[i * 5] + arr[i * 5 + 1] + arr[i * 5 + 2] + arr[i * 5 + 3] + arr[i * 5 + 4];
+			int sumAI = arrAI[i * 5] + arrAI[i * 5 + 1] + arrAI[i * 5 + 2] + arrAI[i * 5 + 3] + arrAI[i * 5 + 4];
+
+			if (sum == 0)	++bingoCount;
+			if (sumAI == 0)	++bingoCountAI;
+		}
+		// 세로 판정
+		for (int i = 0; i < 5; ++i)
+		{
+			int sum = arr[i] + arr[i + 1 * 5] + arr[i + 2 * 5] + arr[i + 3 * 5] + arr[i + 4 * 5];
+			int sumAI = arrAI[i] + arrAI[i + 1 * 5] + arrAI[i + 2 * 5] + arrAI[i + 3 * 5] + arrAI[i + 4 * 5];
+
+			if (sum == 0)	++bingoCount;
+			if (sumAI == 0)	++bingoCountAI;
+		}
+
+		// 대각선 판정 1
+		int sum = arr[0] + arr[6] + arr[12] + arr[18] + arr[24];
+		int sumAI = arrAI[0] + arrAI[6] + arrAI[12] + arrAI[18] + arrAI[24];
+
+		if (sum == 0)	++bingoCount;
+		if (sumAI == 0)	++bingoCountAI;
+
+		// 대각선 판정 2
+		sum = arr[4] + arr[8] + arr[12] + arr[16] + arr[20];
+		sumAI = arrAI[4] + arrAI[8] + arrAI[12] + arrAI[16] + arrAI[20];
+
+		if (sum == 0)	++bingoCount;
+		if (sumAI == 0)	++bingoCountAI;
+
+		// bingo 수 체크
+		if (bingoCount >= 5 && bingoCountAI >= 5)
+		{
+			cout << "와우 비기셨습니다." << endl;
+			break;
+		}
+		if (bingoCount >= 5 && bingoCountAI < 5)
+		{
+			cout << "Player : 5 빙고 승리!@@!!@!@" << endl;
+			break;
+		}
+		if (bingoCountAI >= 5 && bingoCount < 5)
+		{
+			cout << "A I : 5 빙고 승리...... ㅠㅠ" << endl;
 			break;
 		}
 
-		cout << "숫자를 입력해주세요(0 : 종료)";
-		int iInput;
-		cin >> iInput;
-
-		if (iInput == 0)
-			break;
-
-		else if (iInput < 1 || iInput > 25)
-			continue;
 
 
-
-		// 중복체크를 위한 변수, 기본적으로 중봉되었다라고 하기위해 true로 설정
-		bool bAcc = true;
-
-		/*
-		모든 숫자를 중복체크해서 입력한 숫자와 같은 숫자가 있는지 찾아낸다
-		*/
+		// UI Text
+		cout << count << " 회차"
+			<< "\t플레이어 빙고 : " << bingoCount << "개 VS "
+			<< "A I 빙고 : " << bingoCountAI << " 개" << endl << endl;
+		cout << "AI의 PICK : " << aiPick << endl << endl;
 		for (int i = 0; i < 25; ++i)
 		{
-			//같은 숫자가 있을 경우
-			if (iInput == iNumber[i])
-			{
-				//숫자를 찾았을 경우 중복된 숫자가 아니므로 bAcc 변수를 false로 만들어준다
-				bAcc = false;
-
-				// 숫자를 별로 변경하기 위해 특수한 값인 INT_MAX를 
-				iNumber[i] = INT_MAX;
-				//더이상 다른 숫자를 찾아볼 필요가 없으므로 반복문을 빠져나간다
-				break;
-			}
+			cout << easyAIPicks[i] << " ";
 		}
-		// bAcc 변수가 true일 경우 중복된 숫자를 입력해서 숫자를 *로 바꾸지 못했으므로 다시 입력받게 컨티뉴 해준다
-		if (bAcc)
-			continue;
+		cout << endl << endl;
+		cout << "1~25 사이의 숫자를 입력하시오(0 : 종료)" << endl;
 
-		//중복이 아니라면 AI의 숫자도 찾아서 *로 바꿔준다
-		for (int i = 0; i < 25; ++i)
+
+
+		// 플레이어 입력
+		int player;
+		cin >> player;
+
+		if (player != 0)
 		{
-			if (iAiNumber[i] == iInput)
-			{
-				iAiNumber[i] = INT_MAX;
-
-				break;
-			}
-		}
-
-		//Ai가 선택한다. Ai가 선택하는 것은 Ai모드에 따라서 달라진다
-
-		switch (iAiMode)
-		{
-			/*
-			AI EASY 모드는 현재 AI 숫자 목록중 *로 바뀌지 않은 숫자 목록을 만들어서 그 목록중 하나를 선택하게 한다.	(랜덤하게)
-			*/
-		case AM_EASY:
-			//선택안된 숫자 목록을 만들어 준다.
-			//선택안된 숫자 개수는 목록을 만들 때 카운팅 해준다.
-			iNoneSelectCount = 0;
 			for (int i = 0; i < 25; ++i)
 			{
-				if (iAiNumber[i] != INT_MAX)
+				if (player == arr[i])
 				{
+					arr[i] = 0;
+					break;
+				}
+			}
+		}
+		else
+		{
+			break;
+		}
 
-					// *이 아닌 숫자일 경우 iNoneSelect를 인덱스로 활용한다
-					//선택 안된 목록에 추가할 때 마다 개수를 1씩 증가시켜서 총 선택안된 개수를 구해준다
-					//그런데 0부터 카운트가 시작임으로 0번에 넣고 ++해서 1개 추가되었다고 해준다.
-					iNoneSelect[iNoneSelectCount] = iAiNumber[i];
-					++iNoneSelectCount;
+		// 쉬운 AI
+		if (inputDifficulty == AI_EASY)
+		{
+			for (int i = 0; i < 25; ++i)
+			{
+				if (player == arrAI[i])
+				{
+					arrAI[i] = 0;
+					break;
 				}
 			}
 
-			// for문을 빠져나오게 되면 선택안된 목록이 만들어지고
-			// 선택안된 목록의 개수가 만들어지게 된다. 선택안된 목록의 숫자중 랜덤한 하나의 숫자를
-			// 얻어오기 위해 인덱스를 랜덤하게 구해준다.
+			// 픽 pool에 동기화
+			for (int i = 0; i < 25; ++i)
+			{
+				if (player == easyAIPicks[i])
+				{
+					easyAIPicks[i] = 0;
+				}
+			}
 
-			iInput = iNoneSelect[rand() % iNoneSelectCount];
-			break;
+			while (easyAIPicks[aiIndex] == 0) // 이미 player가 체크한 숫자 지우기
+			{
+				++aiIndex;
+			}
 
+			aiPick = easyAI = easyAIPicks[aiIndex]; // easyAIPicks에서 하나씩 사용
 
-		case AM_HARD:
-			break;
+			// 플레이어 빙고판에 AI의 숫자 체크
+			for (int i = 0; i < 25; ++i)
+			{
+				if (easyAI == arrAI[i])
+				{
+					arrAI[i] = 0;
+				}
+				if (easyAI == arr[i])
+				{
+					arr[i] = 0;
+					++count;
+				}
+			}
+
+			++aiIndex;
 		}
 
-		//Ai가 숫자를 선택했음으로 플레이어와 AI의 숫자를 *로 바꿔준다
-		for (int i = 0; i < 25; ++i)
+		// 어려운 AI
+		else if (inputDifficulty == AI_HARD)
 		{
-			if (iNumber[i] == iInput)
+			// 어려운 AI 초기화
+			for (int i = 0; i < 0; ++i)
 			{
-				iNumber[i] = INT_MAX;
-				break;
+				assessmentArr[i] = 0;
+			}
+
+			// 동기화
+			for (int i = 0; i < 25; ++i)
+			{
+				if (player == arrAI[i])
+				{
+					arrAI[i] = 0;
+					break;
+				}
+			}
+
+			int hardAI;
+
+			// 가로 평가
+			for (int i = 0; i < 5; ++i)
+			{
+				int checkCount = 0; // 빙고체크한 횟수
+				for (int j = 0; j < 5; ++j)
+				{
+					if (arrAI[i * 5 + j] == 0)	checkCount++;
+				}
+				// 그 줄 모두가 점수를 획득
+				assessmentArr[i * 5] = assessmentArr[i * 5 + 1] = assessmentArr[i * 5 + 2] = assessmentArr[i * 5 + 3] = assessmentArr[i * 5 + 4] = checkCount;
+			}
+
+			// 세로 평가
+			for (int i = 0; i < 5; ++i)
+			{
+				int checkCount = 0;
+				for (int j = 0; j < 5; ++j)
+				{
+					if (arrAI[i + j * 5] == 0)	++checkCount;
+				}
+				// 그 줄 모두가 점수를 획득
+				assessmentArr[i] += checkCount;
+				assessmentArr[i + 1 * 5] += checkCount;
+				assessmentArr[i + 2 * 5] += checkCount;
+				assessmentArr[i + 3 * 5] += checkCount;
+				assessmentArr[i + 4 * 5] += checkCount;
+			}
+
+			// 대각선 평가(왼쪽에서 오른)			
+			int checkCount = 0;
+
+			for (int i = 0; i < 5; ++i)
+			{
+				if (arrAI[i * 6] == 0)	++checkCount;
+			}
+
+			// 그 줄 모두가 점수를 획득
+			for (int i = 0; i < 5; ++i)
+			{
+				assessmentArr[i * 6] += checkCount;
+			}
+
+			// 대각선 평가(오른쪽에서 왼)
+			checkCount = 0;
+			for (int i = 0; i < 5; ++i)
+			{
+				if (arrAI[4 + i * 4] == 0)	++checkCount;
+			}
+
+			// 그 줄 모두가 점수를 획득
+			for (int i = 0; i < 5; ++i)
+			{
+				assessmentArr[4 + i * 4] += checkCount;
+			}
+
+			hardAI = 0; // AI가 선택할 빙고판의 INDEX
+			int hardAINum = 0; // 평가 점수 변수
+			for (int i = 0; i < 25; ++i)
+			{
+				// 가장 점수가 높지만 이미 체크가 된 숫자가 아닌 숫자를 찾기!
+				if (assessmentArr[i] > hardAINum && arrAI[i] != 0)
+				{
+					hardAINum = assessmentArr[i]; // 점수 저장
+					hardAI = i;					  // index 저장
+				}
+			}
+
+			// 가장 큰 점수를 가진 index를 bingo check
+			aiPick = arrAI[hardAI];
+
+			// 플레이어 빙고판에 AI의 숫자 체크
+			for (int i = 0; i < 25; ++i)
+			{
+				if (aiPick == arrAI[i])
+				{
+					arrAI[i] = 0;
+				}
+				if (aiPick == arr[i])
+				{
+					arr[i] = 0;
+					++count;
+				}
 			}
 		}
-
-		//AI 숫자를 바꿔준다
-		for (int i = 0; i < 25; ++i)
-		{
-			if (iAiNumber[i] == iInput)
-			{
-				iAiNumber[i] = INT_MAX;
-				break;
-			}
-		}
-
-		//빙고 줄 수 체크하는 것은 매번 숫자를 입력할 때 마다 처음부터 새로 카운트를 할 것이다
-		//그러므로 iBingo 변수를 매번 새로 초기화 하고 새롭게 줄 수 있도록 구해준다
-		iBingo = 0;
-		iAiBingo = 0;
-
-		//가로,세로 줄 수를 구해준다
-		int iStar1 = 0, iStar2 = 0;
-		int iAiStar1 = 0, iAistar2 = 0;
-
-		for (int i = 0; i < 5; ++i)
-		{
-			//한줄을 체크하기 전에 먼저 0으로 별 개수를 초기화한다
-			iStar1 = iStar2 = 0;
-			iAiStar1 = iAistar2 = 0;
-			for (int j = 0; j < 5; ++j)
-			{
-				//가로 별 개수를 구해준다
-				if (iNumber[i * 5 + j] == INT_MAX) //가로줄 별 체크 
-					++iStar1;
-
-				//세로 별 개수를 구해준다 
-				if (iNumber[j * 5 + i] == INT_MAX)
-					++iStar2;
-
-				//Ai 줄체크
-				if (iNumber[i * 5 + j] == INT_MAX)
-					++iAiStar1;
-
-				if (iNumber[j * 5 + i] == INT_MAX)
-					++iAistar2;
-			}
-			//i for문을 빠져나오고 나면 현재 줄의 가로별 개수가 몇개인지 iStar1 변수에 들어가게 된다.
-			//iStar1이 값이 5이면 한줄이 모드 * 이라는 의미이므로 빙고 줄 카운트를 추가해준다
-			if (iStar1 == 5)
-				++iBingo;
-
-			//세로값
-			if (iStar2 == 5)
-				++iBingo;
-
-
-			//Ai 가로,세로 체크
-			if (iAiStar1 == 5)
-				++iAiBingo;
-
-			if (iAistar2 == 5)
-				++iAiBingo;
-		}
-		//왼쪽상단에서 오른쪽 하단으로 가는 줄 체크 특징 :: 인덱스가 6식 증가 6,12,18,24
-		iStar1 = 0;//0으로 초기화
-		iAiStar1 = 0;
-		for (int i = 0; i < 25; i += 6)
-		{
-			if (iNumber[i] == INT_MAX)
-				++iStar1;
-
-			if (iNumber[i] == INT_MAX)
-				++iAiStar1;
-		}
-		if (iStar1 == 5)
-			++iBingo;
-
-		if (iAiStar1 == 5)
-			++iAiBingo;
-
-
-		//오른쪽 상단에서 왼쪽 하단 체크 특징 :: 인덱스 4씩 증가 4,8,12,16,20
-		iStar1 = 0;
-		iAiStar1 = 0;
-		for (int i = 0; i <= 20; i += 4)
-		{
-			if (iNumber[i] == INT_MAX)
-				++iStar1;
-
-			if (iNumber[i] == INT_MAX)
-				++iAiStar1;
-		}
-		if (iStar1 == 5)
-			++iBingo;
-
-		if (iAiStar1 == 5)
-			++iAiBingo;
-
 	}
+
+	cout << "게임이 종료되었습니다." << endl;
+
+	system("pause");
 
 	return 0;
 }
-
