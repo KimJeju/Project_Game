@@ -35,6 +35,18 @@ int main()
 	//배열에 추가된 개수를 저장할 변수를 만들어준다
 	int iStudentCount = 0;
 	int iStdNumber = 1;
+
+	char istrName[NAME_SIZE] = {}; // 스위치 밖에 변수를 사용하고 선연해야 
+
+	/*
+	C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\StudentProgream\StudentProgream\StudentProgream.cpp(141,3): error C2360: 'strSeachName' 초기화가 'case' 레이블에 의해 생략되었습니다.
+	1>C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\StudentProgream\StudentProgream\StudentProgream.cpp(136): message : 'strSeachName' 선언을 참조하십시오.
+	1>C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\StudentProgream\StudentProgream\StudentProgream.cpp(162,3): error C2361: 'strSeachName' 초기화가 'default' 레이블에 의해 생략되었습니다.
+	1>C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\StudentProgream\StudentProgream\StudentProgream.cpp(136): message : 'strSeachName' 선언을 참조하십시오.
+
+	위 에러가 뜨지않음
+	*/
+
 	while (true)
 	{
 		system("cls");
@@ -129,8 +141,17 @@ int main()
 
 		case MENU_DELETE:
 			break;
+
 		case MENU_SEARCH:
+			system("cls");
+			cout << "=================== 학생탐색 ==================" << endl;
+
+			cin.ignore(1024, '\n');
+			cout << "탐색할 학생의 이름을 입력해주세요 :";
+			cin.getline(istrName, NAME_SIZE);
 			break;
+
+
 		case MENU_OUTPUT:
 			system("cls");
 
