@@ -36,7 +36,7 @@ int main()
 	int iStudentCount = 0;
 	int iStdNumber = 1;
 
-	char istrName[NAME_SIZE] = {}; // 스위치 밖에 변수를 사용하고 선연해야 
+	char iStrName[NAME_SIZE] = {}; // 스위치 밖에 변수를 사용하고 선연해야 
 
 	/*
 	C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\StudentProgream\StudentProgream\StudentProgream.cpp(141,3): error C2360: 'strSeachName' 초기화가 'case' 레이블에 의해 생략되었습니다.
@@ -148,7 +148,28 @@ int main()
 
 			cin.ignore(1024, '\n');
 			cout << "탐색할 학생의 이름을 입력해주세요 :";
-			cin.getline(istrName, NAME_SIZE);
+			cin.getline(iStrName, NAME_SIZE);
+
+			//등록되어 있는 학생 수 많큼 반복하여 학생을 찾는다.
+
+			for (int i = 0; i < iStudentCount; ++i)
+			{
+				//학생을 찾았을 경우
+				if (strcmp(tStudentArr[i].strName, iStrName) == 0)
+				{
+					cout << "이름 :" << tStudentArr[i].strName << endl;
+					cout << "전화번호 :" << tStudentArr[i].strPhoneNumber << endl;
+					cout << "주소 :" << tStudentArr[i].strAddress << endl;
+					cout << "학번 :" << tStudentArr[i].INumber << endl;
+					cout << "국어 :" << tStudentArr[i].iKor << endl;
+					cout << "영어 :" << tStudentArr[i].iEng << endl;
+					cout << "수학 :" << tStudentArr[i].iMath << endl;
+					cout << "총점 :" << tStudentArr[i].iTotal << endl;
+					cout << "평군 :" << tStudentArr[i].fAvg << endl << endl;
+					break;
+				}
+
+			}
 			break;
 
 
