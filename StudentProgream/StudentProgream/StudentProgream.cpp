@@ -36,7 +36,9 @@ int main()
 	int iStudentCount = 0;
 	int iStdNumber = 1;
 
-	char iStrName[NAME_SIZE] = {}; // 스위치 밖에 변수를 사용하고 선연해야 
+	char iStrName[NAME_SIZE] = {}; 
+	
+	// 스위치 밖에 변수를 사용하고 선연해야 
 
 	/*
 	C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\StudentProgream\StudentProgream\StudentProgream.cpp(141,3): error C2360: 'strSeachName' 초기화가 'case' 레이블에 의해 생략되었습니다.
@@ -140,6 +142,30 @@ int main()
 
 
 		case MENU_DELETE:
+
+			system("cls");
+
+			cout << "=================== 학생삭제 ==================" << endl;
+
+			cin.ignore(1024, '\n');
+			cout << "탐색할 이름을 입력해주세요 :";
+			cin.getline(iStrName, NAME_SIZE);
+
+			for (int i = 0; i < iStudentCount; ++i)
+			{
+				//학생을 삭제할 경우
+				if (strcmp(tStudentArr[i].strName, iStrName) == 0)
+				{
+					for (int j = i; j < iStudentCount - 1; ++j)
+					{
+						tStudentArr[i] = tStudentArr[i + 1];
+					}
+				}
+				-- iStudentCount;
+
+				cout << "학생을 삭제하였습니다" << endl;
+				break;
+			}
 			break;
 
 		case MENU_SEARCH:
@@ -178,6 +204,7 @@ int main()
 
 			cout << "=================== 학생출력 ==================" << endl;
 
+		
 			//등록된 학생 수만큼 반복하며 학생 정보를 출력한다.
 
 			for (int i = 0; i < iStudentCount; ++i)
