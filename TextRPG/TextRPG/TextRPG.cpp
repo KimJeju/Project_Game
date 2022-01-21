@@ -20,8 +20,81 @@ enum MAP_TYPE
 	MT_BACK,
 };
 
+enum JOB
+{
+	JOB_NONE,
+	JOB_NIGHT,
+	JOB_ARCHER,
+	JOB_WIZARD,
+};
+
+#define NAME_SIZE 32
+
+struct _tagPlayer
+{
+	char strName[NAME_SIZE];
+	char strJobName[NAME_SIZE];
+	JOB ejob;
+	int iAttackMin;
+	int IAttackMax;
+	int iArmorMin;
+	int iArmorMax;
+	int iHP;
+	int iHPMax;
+	int iMP;
+	int iMPMax;
+	int iExp;
+	int iLevel;
+};
+
+struct _tagMonster
+{
+	char strName[NAME_SIZE];
+	int iAttackMin;
+	int iAttackMax;
+	int iArmorMin;
+	int iArmorMax;
+	int iHP;
+	int iHPMax;
+	int iMP;
+	int iMPMax;
+	int iLevel;
+	int iExp; // 획득 Exp;
+	int iGoldMin;
+	int iColdMax;
+
+};
+
 int main()
 {
+	srand((unsigned int)time(0));
+
+	// 게임을 시작할 때 플레이어 정보를 설정하게 한다.
+	_tagPlayer tPlayer = {};
+	// 플레이어의 이름을 입력 받는다.
+	cout << "이름 :";
+	cin.getline(tPlayer.strName, NAME_SIZE - 1); //문자열의 끝은 NULL로 끝내야하기 떄문에 문자에 마지막까지 꽉꽉 채워져있다면 NULL 까지 문자열로 인식하기에 - 1 || NULL 공간 확보
+
+	int iJob = JOB_NONE;
+	while (iJob == JOB_NONE)
+	{
+		system("cls");
+
+		cout << "1. 기사" << endl;
+		cout << "2. 궁수" << endl;
+		cout << "3. 마법사" << endl;
+		cout << "직업을 선택하세요 :";
+		
+		cin >> iJob
+
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.getline(1024, '\n');
+		}
+	}
+
+
 	while (true)
 	{
 		system("cls");
