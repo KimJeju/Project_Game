@@ -13,7 +13,7 @@ enum MAIN_MENU
 
 enum MAP_TYPE
 {
-    MT_NONE,
+	MT_NONE,
 	MT_EASY,
 	MT_NOMAL,
 	MT_HARD,
@@ -98,18 +98,18 @@ int main()
 		cout << "2. 궁수" << endl;
 		cout << "3. 마법사" << endl;
 		cout << "직업을 선택하세요 :";
-		
+
 		cin >> iJob;
 
-			if (cin.fail())
-			{
-				cin.clear();
-				cin.ignore(1024, '\n');
-				continue;
-			}
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(1024, '\n');
+			continue;
+		}
 
-			else if (iJob <= JOB_NONE || iJob >= JOB_END)
-				iJob = JOB_NONE;
+		else if (iJob <= JOB_NONE || iJob >= JOB_END)
+			iJob = JOB_NONE;
 	}
 	tPlayer.iLevel = 1;
 	tPlayer.iExp = 0;
@@ -157,7 +157,7 @@ int main()
 	_tagMonster tMonsterArr[MT_BACK - 1] = {};
 
 	// 고블린 생성
-	strcpy_s(tMonsterArr[0].strName,  "고블린");
+	strcpy_s(tMonsterArr[0].strName, "고블린");
 	tMonsterArr[0].iAttackMin = 20;
 	tMonsterArr[0].iAttackMax = 30;
 	tMonsterArr[0].iArmorMin = 2;
@@ -172,7 +172,7 @@ int main()
 	tMonsterArr[0].iGoldMax = 1500;
 
 	// 트롤 생성
-	strcpy_s(tMonsterArr[1].strName,  "트롤");
+	strcpy_s(tMonsterArr[1].strName, "트롤");
 	tMonsterArr[1].iAttackMin = 80;
 	tMonsterArr[1].iAttackMax = 130;
 	tMonsterArr[1].iArmorMin = 60;
@@ -222,11 +222,11 @@ int main()
 			cin.clear();
 			cin.ignore(1024, '\n');
 			continue;
-			
+
 		}
 
 		if (iMenu == MM_EIXT)
-		break;
+			break;
 
 		switch (iMenu)
 		{
@@ -241,8 +241,8 @@ int main()
 				cout << "3. 어려움" << endl;
 				cout << "4. 뒤로가기" << endl;
 				cout << "맵을 선택하세요 :";
-				
-				cin >> iMenu ;
+
+				cin >> iMenu;
 
 				if (cin.fail())
 				{
@@ -311,10 +311,37 @@ int main()
 					switch (iMenu)
 					{
 					case BATTLE_ATTACK:
+					{
+						//예를 들어 min 5 Max 15 라고 가정할 경우 
+						//15 - 5 + 1 을 하면 11이 된다. 11로 나눈 나머지 0 ~ 10 나오게 되고
+						//여기에 Min값인 5를 더하게 되면 5 ~ 15 사이로 나오게 되는 것이다
+						int iAttack = rand() & (tPlayer.IAttackMax - tPlayer.IAttackMin + 1) + tPlayer.iAttackMin;
+						//몬스터를 때렸기 때문에 아래는 몬스터 출력
+						int iArmor = rand() % (tMonster.iArmorMax - tMonster.iArmorMin + 1) + tMonster.iArmorMin;
+						
+						int iDamage = iAttack - iArmor;
+						// 삼향 연산자 : 조건식이 ? true일 떄 값 : false 일떄 값 ;
+						/*
+						if(iDamage < 1)
+						   iDamage = 1;  이 코드와 아래가 같음
+						*/
+						iDamage = iDamage < 1 ? 1 : iDamage;
+						// 몬스터 HP를 감소시킨다
+						tMonster.iHP -= iDamage;
+
+						cout << tPlayer.strName >> "가" << tMonster.strName << "에게" << iDamage << "피해를 입혔습니다" << endl;
+
+						//몬스터가 죽었을 경우를 처리한다.
+						if (tMonster.iHP <= 0)
+						{
+							cout << tMonster.strName << "몬스터가 사망하였습니다" << endl;
+							tPlayer.iExp += tMonster.iExp;
+						}
+					}
 						break;
 
 					}
-					
+
 				}
 
 			}
@@ -330,7 +357,7 @@ int main()
 			cout << "잘못 선택 하였습니다" << endl;
 			break;
 		}
-		
+
 	}
 
 
