@@ -58,7 +58,7 @@ struct _tagPlayer
 	int iMPMax;
 	int iExp;
 	int iLevel;
-	_tagInventory tInventory
+	_tagInventory tInventory;
 };
 
 struct _tagMonster
@@ -288,7 +288,7 @@ int main()
 					//몬스터 정보출력
 					cout << "================ Monster =================" << endl;
 					cout << "이름 :" << tMonster.strName << "\t레벨 :" << tMonster.iLevel << endl;
-					cout << "공격력 :" << tMonster.iAttackMin << "~" << tMonster.IAttackMax << "\t방어력 :" << tMonster.iArmorMin << "~" << tMonster.iArmorMax << endl;
+					cout << "공격력 :" << tMonster.iAttackMin << "~" << tMonster.iAttackMax << "\t방어력 :" << tMonster.iArmorMin << "~" << tMonster.iArmorMax << endl;
 					cout << "체력 :" << tMonster.iHP << "/" << tMonster.iHPMax << "\t마나 :" << tMonster.iMP << "/" << tMonster.iMPMax << endl;
 					cout << "획득경험치 :" << tMonster.iExp << "획득골드 :" << tMonster.iGoldMin << "~" << tMonster.iGoldMax << endl << endl;
 
@@ -301,7 +301,7 @@ int main()
 					if (cin.fail())
 					{
 						cin.clear();
-						cin.ignore(1024, '\n')
+						cin.ignore(1024, '\n');
 							continue;
 					}
 
@@ -310,12 +310,13 @@ int main()
 
 					switch (iMenu)
 					{
+
 					case BATTLE_ATTACK:
 					{
 						//예를 들어 min 5 Max 15 라고 가정할 경우 
 						//15 - 5 + 1 을 하면 11이 된다. 11로 나눈 나머지 0 ~ 10 나오게 되고
 						//여기에 Min값인 5를 더하게 되면 5 ~ 15 사이로 나오게 되는 것이다
-						int iAttack = rand() & (tPlayer.IAttackMax - tPlayer.IAttackMin + 1) + tPlayer.iAttackMin;
+						int iAttack = rand() & (tPlayer.IAttackMax - tPlayer.iAttackMin + 1) + tPlayer.iAttackMin;
 						//몬스터를 때렸기 때문에 아래는 몬스터 출력
 						int iArmor = rand() % (tMonster.iArmorMax - tMonster.iArmorMin + 1) + tMonster.iArmorMin;
 						
@@ -329,27 +330,63 @@ int main()
 						// 몬스터 HP를 감소시킨다
 						tMonster.iHP -= iDamage;
 
-						cout << tPlayer.strName >> "가" << tMonster.strName << "에게" << iDamage << "피해를 입혔습니다" << endl;
+						cout << tPlayer.strName << "가" << tMonster.strName << "에게" << iDamage << "피해를 입혔습니다" << endl;
 
 						//몬스터가 죽었을 경우를 처리한다.
 						if (tMonster.iHP <= 0)
 						{
 							cout << tMonster.strName << "몬스터가 사망하였습니다" << endl;
 							tPlayer.iExp += tMonster.iExp;
-							int iGold = (rand() % (tMonster.iGoldMax - tMonster.iGoldMin = 1) + tMonster.iGoldMin);
+							int iGold = (rand() % (tMonster.iGoldMax - tMonster.iGoldMin + 1) + tMonster.iGoldMin);
 							tPlayer.tInventory.iGold += iGold;
 
 							cout << tMonster.iExp << "경험치를 획득하였습니다" << endl;
 							cout << iGold << "골드를 획득하였습니다." << endl;
-							system("pause")
+
+							tMonster.iHP = tMonster.iHPMax;
+							tMonster.iMP = tMonster.iMPMax;
+
+							system("pause");
 							break;
 						}
 
 						//몬스터가 살아있다면 플레이어를 공격한다.
 
-						int iAttack = rand() & (tMonster.IAttackMax - tMonster.IAttackMin + 1) + tMonster.iAttackMin;
+						iAttack = rand() & (tMonster.iAttackMax - tMonster.iAttackMin + 1) + tMonster.iAttackMin;
 						//몬스터를 때렸기 때문에 아래는 몬스터 출력
-						int iArmor = rand() % (tPlayer.iArmorMax - tPlayer.iArmorMin + 1) + tPlayer.iArmorMin;
+						iArmor = rand() % (tPlayer.iArmorMax - tPlayer.iArmorMin + 1) + tPlayer.iArmorMin;
+
+						iDamage = iAttack - iArmor;
+						// 삼향 연산자 : 조건식이 ? true일 떄 값 : false 일떄 값 ;
+						/*
+						if(iDamage < 1)
+						   iDamage = 1;  이 코드와 아래가 같음
+						*/
+						iDamage = iDamage < 1 ? 1 : iDamage;
+						// 몬스터 HP를 감소시킨다
+						tPlayer.iHP -= iDamage;
+
+						cout << tMonster.strName << "가" << tPlayer.strName << "에게" << iDamage << "피해를 입혔습니다" << endl;
+
+
+						if (tPlayer.iHP <= 0)
+						{
+							cout << tMonster.strName << "플레이어가 사망하였습니다" << endl;
+
+							int iExp = tPlayer.iExp * 0.1f;
+							int iGold = tPlayer.tInventory.iGold * 0.1f;
+
+							tPlayer.iExp -= iExp;
+							tPlayer.tInventory.iGold -= iGold;
+
+							cout << iExp << "경험치를 잃었습니다" << endl;
+							cout << iGold << "골드를 잃었습니다" << endl;
+
+							//플레이어의 HP와 MP회복
+
+							tPlayer.iHP = tPlayer.iHPMax;
+							tPlayer.iMP = tPlayer.iMPMax;
+						}
 
 					}
 						break;
