@@ -336,7 +336,21 @@ int main()
 						{
 							cout << tMonster.strName << "몬스터가 사망하였습니다" << endl;
 							tPlayer.iExp += tMonster.iExp;
+							int iGold = (rand() % (tMonster.iGoldMax - tMonster.iGoldMin = 1) + tMonster.iGoldMin);
+							tPlayer.tInventory.iGold += iGold;
+
+							cout << tMonster.iExp << "경험치를 획득하였습니다" << endl;
+							cout << iGold << "골드를 획득하였습니다." << endl;
+							system("pause")
+							break;
 						}
+
+						//몬스터가 살아있다면 플레이어를 공격한다.
+
+						int iAttack = rand() & (tMonster.IAttackMax - tMonster.IAttackMin + 1) + tMonster.iAttackMin;
+						//몬스터를 때렸기 때문에 아래는 몬스터 출력
+						int iArmor = rand() % (tPlayer.iArmorMax - tPlayer.iArmorMin + 1) + tPlayer.iArmorMin;
+
 					}
 						break;
 
