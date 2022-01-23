@@ -45,8 +45,20 @@ enum ITEM_TYPE
 
 };
 
-#define NAME_SIZE 32
-#define ITEM_DESC_LENGTH 512
+enum STORE_MENU
+{
+	SM_NONE,
+	SM_WEAPON,
+	SM_ARMOR,
+    SM_BACK
+};
+
+#define NAME_SIZE 32 //이름 길이
+#define ITEM_DESC_LENGTH 512 // 아이템 설명 길이
+#define INVENTORY_MAX 20 // 인벤토리 아이템 최대치
+#define STORE_WEAPON_MAX 3 // 무기상점 판매개수
+#define STORE_ARMOR_MAX 3 //방어구상점 판매개수
+
 struct _tagItem
 {
 	char strName[NAME_SIZE];
@@ -62,6 +74,8 @@ struct _tagItem
 
 struct _tagInventory
 {
+	_tagItem tItem[INVENTORY_MAX];
+	int iItemiCount;
 	int iGold;
 };
 
@@ -224,6 +238,13 @@ int main()
 	tMonsterArr[2].iGoldMin = 20000;
 	tMonsterArr[2].iGoldMax = 50000;
 
+	//상점에서 판매할 아이템 목록을 생성한다.
+
+	_tagItem tStoreWeapon[STORE_WEAPON_MAX] = {};
+	_tagItem tStoreArmor[STORE_ARMOR_MAX] = {};
+
+	//아이템 정보들을 설정해준다.
+	tStoreWeapon[0]
 
 
 	while (true)
@@ -422,6 +443,46 @@ int main()
 			break;
 
 		case MM_STORE:
+			while (true)
+			{   
+				system("cls");
+				cout << "====================== 상점 =================" << endl;
+				cout << "1. 무기상점" << endl;
+				cout << "2. 방어구상점" << endl;
+				cout << "3. 뒤로가기" << endl;
+				cout << "상점을 선택하세요" << endl;
+
+				cin >> iMenu;
+
+				if (cin.fail())
+				{
+					cin.clear();
+					cin.ignore(1024, '\n');
+					continue;
+				}
+
+				if (iMenu == SM_BACK)
+					break;
+
+				switch (iMenu)
+				{
+				case SM_WEAPON:
+					while (true)
+					{
+						system("cls");
+						cout << "====================== 무기상점 =================" << endl;
+
+						//판매 목록을 보여준다.
+					}
+					break;
+
+				case SM_ARMOR:
+					cout << "====================== 방어구상점 =================" << endl;
+
+					break;
+				}
+
+			}
 			break;
 
 		case MM_INVENTORY:
