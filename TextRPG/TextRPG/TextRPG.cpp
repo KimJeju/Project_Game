@@ -29,7 +29,19 @@ enum JOB
 	JOB_END
 };
 
+enum BATTLE
+{
+	BATTLE_NONE,
+	BATTLE_ATTACK,
+	BATTLE_BACK
+};
+
 #define NAME_SIZE 32
+
+struct _tagInventory
+{
+	int iGold;
+};
 
 struct _tagPlayer
 {
@@ -46,6 +58,7 @@ struct _tagPlayer
 	int iMPMax;
 	int iExp;
 	int iLevel;
+	_tagInventory tInventory
 };
 
 struct _tagMonster
@@ -101,6 +114,7 @@ int main()
 	tPlayer.iLevel = 1;
 	tPlayer.iExp = 0;
 	tPlayer.ejob = (JOB)iJob;
+	tPlayer.tInventory.iGold = 10000;
 
 	switch (tPlayer.ejob)
 	{
@@ -249,21 +263,58 @@ int main()
 				{
 					switch (iMenu)
 					{
-						case MT_EASY :
+					case MT_EASY:
 						cout << "====================== 쉬움 =================" << endl;
 						break;
 
-						case MT_NOMAL:
+					case MT_NOMAL:
 						cout << "====================== 보통 =================" << endl;
 						break;
 
-						case MT_HARD:
+					case MT_HARD:
 						cout << "====================== 어려움 =================" << endl;
 						break;
 
 					}
 
 					//플레이어 정보 출력.
+					cout << "================ Player =================" << endl;
+					cout << "이름 :" << tPlayer.strName << "\t직업 :" << tPlayer.strJobName << endl;
+					cout << "레벨 :" << tPlayer.iLevel << "\t경험치 :" << tPlayer.iExp << endl;
+					cout << "공격력 :" << tPlayer.iAttackMin << "~" << tPlayer.IAttackMax << "\t방어력 :" << tPlayer.iArmorMin << "~" << tPlayer.iArmorMax << endl;
+					cout << "체력 :" << tPlayer.iHP << "/" << tPlayer.iHPMax << "\t마나 :" << tPlayer.iMP << "/" << tPlayer.iMPMax << endl;
+					cout << "보유골드 :" << tPlayer.tInventory.iGold << "Gold" << endl << endl;
+
+					//몬스터 정보출력
+					cout << "================ Monster =================" << endl;
+					cout << "이름 :" << tMonster.strName << "\t레벨 :" << tMonster.iLevel << endl;
+					cout << "공격력 :" << tMonster.iAttackMin << "~" << tMonster.IAttackMax << "\t방어력 :" << tMonster.iArmorMin << "~" << tMonster.iArmorMax << endl;
+					cout << "체력 :" << tMonster.iHP << "/" << tMonster.iHPMax << "\t마나 :" << tMonster.iMP << "/" << tMonster.iMPMax << endl;
+					cout << "획득경험치 :" << tMonster.iExp << "획득골드 :" << tMonster.iGoldMin << "~" << tMonster.iGoldMax << endl << endl;
+
+
+					cout << "1. 공격" << endl;
+					cout << "2. 도망가기" << endl;
+					cout << "메뉴를 선택하세요 :";
+					cin >> iMenu;
+
+					if (cin.fail())
+					{
+						cin.clear();
+						cin.ignore(1024, '\n')
+							continue;
+					}
+
+					else if (iMenu == BATTLE_BACK)
+						break;
+
+					switch (iMenu)
+					{
+					case BATTLE_ATTACK:
+						break;
+
+					}
+					
 				}
 
 			}
@@ -281,7 +332,7 @@ int main()
 		}
 		
 	}
-	break;
+
 
 	return 0;
 }
