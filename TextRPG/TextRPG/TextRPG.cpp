@@ -36,7 +36,29 @@ enum BATTLE
 	BATTLE_BACK
 };
 
+enum ITEM_TYPE
+{
+	IT_NONE,
+	IT_WEAPON,
+	IT_ARMOR,
+	IT_BACK
+
+};
+
 #define NAME_SIZE 32
+#define ITEM_DESC_LENGTH 512
+struct _tagItem
+{
+	char strName[NAME_SIZE];
+	char strTypeName[NAME_SIZE];
+	ITEM_TYPE etype;
+	int iMIn;
+	int iMax;
+	int iPrice;
+	int isell;
+	char strDesc[ITEM_DESC_LENGTH]; //아이템 설명
+	
+};
 
 struct _tagInventory
 {
@@ -257,10 +279,11 @@ int main()
 
 				//선택한 메뉴에서 1을 빼주면 몬스터 배열의 인덱스가 있다.
 				//그렇게 해서 해당 맵의 몬스터를 생성해준다
-				_tagMonster tMonster = tMonsterArr[iMenu = 1];
+				_tagMonster tMonster = tMonsterArr[iMenu - 1];
 
 				while (true)
 				{
+					system("cls");
 					switch (iMenu)
 					{
 					case MT_EASY:
@@ -366,7 +389,7 @@ int main()
 						// 몬스터 HP를 감소시킨다
 						tPlayer.iHP -= iDamage;
 
-						cout << tMonster.strName << "가" << tPlayer.strName << "에게" << iDamage << "피해를 입혔습니다" << endl;
+						cout << tMonster.strName << "가\t" << tPlayer.strName << "에게" << iDamage << "피해를 입혔습니다" << endl;
 
 
 						if (tPlayer.iHP <= 0)
@@ -387,7 +410,7 @@ int main()
 							tPlayer.iHP = tPlayer.iHPMax;
 							tPlayer.iMP = tPlayer.iMPMax;
 						}
-
+						system("pause");
 					}
 						break;
 
