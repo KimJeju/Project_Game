@@ -731,12 +731,32 @@ int main()
 				// 아이템이 장착되어 있을 경우 장착되어있는 아이템과 장착할 아이템을 교체해 주어야한다. Swap 알고리즘을 활용한다
 				if (tPlayer.bEquip[eq] == true)
 				{
-
+					_tagItem iSwap = tPlayer.tEquip[eq];
+					tPlayer.tEquip[eq] = tPlayer.tInventory.tItem[idx];
+					tPlayer.tInventory.tItem[idx] = iSwap;
 				}
 
+				// 장착 되어 있지 않을 경우 인벤토리 아이템을 장착창으로 옮기고
+				// 인벤토리도 1칸 비지게 된다
+				else
+				{
+					tPlayer.tEquip[eq] = tPlayer.tInventory.tItem[idx];
+
+					for (int i = idx; i < tPlayer.tInventory.iItemiCount - 1; ++i)
+					{
+						tPlayer.tInventory.tItem[i] = tPlayer.tInventory.tItem[i + 1];
+					}
+
+					--tPlayer.tInventory.iItemiCount;
+
+					//장착을 했기 때문에 true로 만들어 준다
+					tPlayer.bEquip[eq] = true;
+				}
+
+				cout << tPlayer.tEquip[eq].strName << "아이템을 장착하였습니다." << endl;
 
 				system("pause");
-				;
+				
 			}
 
 			break;
