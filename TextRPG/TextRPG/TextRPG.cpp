@@ -384,7 +384,7 @@ int main()
 					cout << "================ Player =================" << endl;
 					cout << "이름 :" << tPlayer.strName << "\t직업 :" << tPlayer.strJobName << endl;
 					cout << "레벨 :" << tPlayer.iLevel << "\t경험치 :" << tPlayer.iExp << endl;
-					
+
 					//무기를 장착하고 있을 경우에 공격력의 무기에 공격력을 추가하여 출력한다
 					if (tPlayer.bEquip[EQ_WEAPON] == true)
 					{
@@ -456,9 +456,29 @@ int main()
 						//예를 들어 min 5 Max 15 라고 가정할 경우 
 						//15 - 5 + 1 을 하면 11이 된다. 11로 나눈 나머지 0 ~ 10 나오게 되고
 						//여기에 Min값인 5를 더하게 되면 5 ~ 15 사이로 나오게 되는 것이다
-						int iAttack = rand() & (tPlayer.IAttackMax - tPlayer.iAttackMin + 1) + tPlayer.iAttackMin;
+						int iAttackmin = tPlayer.iAttackMin;
+						int iAttackMax = tPlayer.IAttackMax;
+
+						// 무기를 장착하고 있을 경우 무기의 min, Max를 더해준다.
+						if (tPlayer.bEquip[EQ_WEAPON])
+						{
+							iAttackmin += tPlayer.tEquip[EQ_WEAPON].iMIn;
+							iAttackMax += tPlayer.tEquip[EQ_WEAPON].iMax;
+						}
+
+						int iAttack = rand() & (iAttackMax - iAttackmin + 1) + iAttackmin;
 						//몬스터를 때렸기 때문에 아래는 몬스터 출력
-						int iArmor = rand() % (tMonster.iArmorMax - tMonster.iArmorMin + 1) + tMonster.iArmorMin;
+						int iArmorMin = tPlayer.iArmorMin;
+						int iArmorMax = tPlayer.iArmorMax;
+
+						if (tPlayer.bEquip[EQ_ARMOR])
+						{
+							iArmorMin += tPlayer.tEquip[EQ_ARMOR].iMIn;
+							iArmorMax += tPlayer.tEquip[EQ_ARMOR].iMax;
+
+						}
+
+						int iArmor = rand() % (iArmorMax - iArmorMin + 1) + iArmorMin;
 
 						int iDamage = iAttack - iArmor;
 						// 삼향 연산자 : 조건식이 ? true일 떄 값 : false 일떄 값 ;
@@ -718,7 +738,7 @@ int main()
 
 				//무기를 장착하고 있을 경우에 공격력의 무기에 공격력을 추가하여 출력한다
 				if (tPlayer.bEquip[EQ_WEAPON] == true)
-				{				
+				{
 					cout << "공격력  :" << tPlayer.iAttackMin << "+" << tPlayer.tEquip[EQ_WEAPON].iMIn << "   " << tPlayer.IAttackMax << "+" << tPlayer.tEquip[EQ_WEAPON].iMax;
 				}
 
@@ -792,11 +812,11 @@ int main()
 
 				switch (tPlayer.tInventory.tItem[idx].etype)
 				{
-				case IT_WEAPON :
+				case IT_WEAPON:
 					eq = EQ_WEAPON;
 					break;
 
-				case IT_ARMOR :
+				case IT_ARMOR:
 					eq = EQ_ARMOR;
 					break;
 				}
@@ -829,7 +849,7 @@ int main()
 				cout << tPlayer.tEquip[eq].strName << "아이템을 장착하였습니다." << endl;
 
 				system("pause");
-				
+
 			}
 
 			break;
