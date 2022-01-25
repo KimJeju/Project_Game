@@ -53,6 +53,13 @@ enum STORE_MENU
 	SM_BACK
 };
 
+enum EQUIP
+{
+	EQ_WEAPON,
+	EQ_ARMOR,
+	EQ_MAX,
+};
+
 #define NAME_SIZE 32 //이름 길이
 #define ITEM_DESC_LENGTH 512 // 아이템 설명 길이
 #define INVENTORY_MAX 20 // 인벤토리 아이템 최대치
@@ -95,6 +102,8 @@ struct _tagPlayer
 	int iMPMax;
 	int iExp;
 	int iLevel;
+	_tagItem tEquip[EQ_MAX];
+	bool bEquip[EQ_MAX];
 	_tagInventory tInventory;
 };
 
@@ -151,14 +160,14 @@ int main()
 	tPlayer.iLevel = 1;
 	tPlayer.iExp = 0;
 	tPlayer.ejob = (JOB)iJob;
-	tPlayer.tInventory.iGold = 10000;
+	tPlayer.tInventory.iGold = 99999999;
 
 	switch (tPlayer.ejob)
 	{
 	case JOB_NIGHT:
 		strcpy_s(tPlayer.strJobName, "기사");
-		tPlayer.iAttackMin = 5;
-		tPlayer.IAttackMax = 10;
+		tPlayer.iAttackMin = 10;
+		tPlayer.IAttackMax = 15;
 		tPlayer.iArmorMin = 15;
 		tPlayer.iArmorMax = 20;
 		tPlayer.iHPMax = 500;
@@ -554,7 +563,7 @@ int main()
 
 
 						// 상점판매목록 배열이 인덱스를 구해준다.
-						int iWeaponIndex = iMenu - 1;
+						int iArmorIndex = iMenu - 1;
 						//인벤토리가 꽉 찼는지 검사한다.
 						if (tPlayer.tInventory.iItemiCount == INVENTORY_MAX)
 						{
@@ -564,7 +573,7 @@ int main()
 						}
 
 						// 돈이 부족할 경우
-						else if (tPlayer.tInventory.iGold < tStoreWeapon[iWeaponIndex].iPrice)
+						else if (tPlayer.tInventory.iGold < tStoreArmor[iArmorIndex].iPrice)
 						{
 							cout << "보유금액이 부족합니다." << endl;
 							system("pause");
@@ -574,13 +583,12 @@ int main()
 
 						// 처음에 iItemCount 는 하나도 추가되어 있지 않기 때문에 0으로 초기화 되어있으므로
 						// 0번 인덱스에 구매한 아이템을 추가하게 된다. 그리고 카운이트가 1 이 된다. 다음번에 구매할 떄는 1번 인덱스에 추가하게 된다
-						tPlayer.tInventory.tItem[tPlayer.tInventory.iItemiCount];
-						tStoreWeapon[iWeaponIndex];
+						tPlayer.tInventory.tItem[tPlayer.tInventory.iItemiCount] = tStoreArmor[iArmorIndex];
 						++tPlayer.tInventory.iItemiCount;
 
 						// 골드를 차감한다
-						tPlayer.tInventory.iGold -= tStoreWeapon[iWeaponIndex].iPrice;
-						cout << tStoreWeapon[iWeaponIndex].strName << " 이이템을 구매하였습니다" << endl;
+						tPlayer.tInventory.iGold -= tStoreArmor[iArmorIndex].iPrice;
+						cout << tStoreArmor[iArmorIndex].strName << " 이이템을 구매하였습니다" << endl;
 						system("pause");
 
 					}
@@ -591,16 +599,16 @@ int main()
 					while (true)
 					{
 						system("cls");
-						cout << "====================== 무기상점 =================" << endl;
+						cout << "====================== 방어구상점 =================" << endl;
 						//판매 목록을 보여준다.
-						for (int i = 0; i < STORE_WEAPON_MAX; ++i)
+						for (int i = 0; i < STORE_ARMOR_MAX; ++i)
 						{
 							cout << i + 1 << "이름 :" << tStoreArmor[i].strName << "\t종류 :" << tStoreArmor[i].strTypeName << endl;
 							cout << "공격력 :" << tStoreArmor[i].iMIn << "~" << tStoreArmor[i].iMax << endl;
 							cout << "가격 :" << tStoreArmor[i].iPrice << "\t구매하기" << tStoreArmor[i].isell << endl;
 							cout << "설명 :" << tStoreArmor[i].strDesc << endl << endl;
 						}
-						cout << STORE_WEAPON_MAX + 1 << ", 뒤로가기" << endl;
+						cout << STORE_ARMOR_MAX + 1 << ", 뒤로가기" << endl;
 						cout << "보유금액 :" << tPlayer.tInventory.iGold << "Gold" << endl;
 						cout << "보유공간 :" << INVENTORY_MAX - tPlayer.tInventory.iItemiCount << endl;
 						cout << "구입할 아아템을 입력하세요 :";
@@ -645,8 +653,7 @@ int main()
 
 						// 처음에 iItemCount 는 하나도 추가되어 있지 않기 때문에 0으로 초기화 되어있으므로
 						// 0번 인덱스에 구매한 아이템을 추가하게 된다. 그리고 카운이트가 1 이 된다. 다음번에 구매할 떄는 1번 인덱스에 추가하게 된다
-						tPlayer.tInventory.tItem[tPlayer.tInventory.iItemiCount];
-						tStoreArmor[iWeaponIndex];
+						tPlayer.tInventory.tItem[tPlayer.tInventory.iItemiCount] = tStoreArmor[iWeaponIndex];
 						++tPlayer.tInventory.iItemiCount;
 
 						// 골드를 차감한다
@@ -663,10 +670,30 @@ int main()
 			break;
 
 		case MM_INVENTORY:
+
+			cout << "====================== 가방 =================" << endl;
+			cout << "이름 :" << tPlayer.strName << "\t직업 :" << tPlayer.strJobName << endl;
+			cout << "레벨 :" << tPlayer.iLevel << "\t경험치 :" << tPlayer.iExp << endl;
+			cout << "공격력 :" << tPlayer.iAttackMin << "~" << tPlayer.IAttackMax << "\t방어력 :" << tPlayer.iArmorMin << "~" << tPlayer.iArmorMax << endl;
+			cout << "체력 :" << tPlayer.iHP << "/" << tPlayer.iHPMax << "\t마나 :" << tPlayer.iMP << "/" << tPlayer.iMPMax << endl;
+			cout << "보유골드 :" << tPlayer.tInventory.iGold << "Gold" << endl << endl;
+
+			for (int i = 0; i < tPlayer.tInventory.iItemiCount; ++i)
+			{
+				cout << i + 1 << "이름 :" << tPlayer.tInventory.tItem[i].strName << "\t종류 :" << tPlayer.tInventory.tItem[i].strTypeName << endl;
+				cout << "공격력 :" << tPlayer.tInventory.tItem[i].iMIn << "~" << tPlayer.tInventory.tItem[i].iMax << endl;
+				cout << "가격 :" << tPlayer.tInventory.tItem[i].iPrice << "\t구매하기" << tPlayer.tInventory.tItem[i].isell << endl;
+				cout << "설명 :" << tPlayer.tInventory.tItem[i].strDesc << endl << endl;
+			}
+
+		
+			
+			system("pause");
 			break;
 
 		default:
 			cout << "잘못 선택 하였습니다" << endl;
+
 			break;
 		}
 
