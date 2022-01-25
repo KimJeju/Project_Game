@@ -287,7 +287,7 @@ int main()
 	tStoreArmor[0].iPrice = 3000;
 	tStoreArmor[0].isell = 3000;
 
-						 
+
 	strcpy_s(tStoreArmor[1].strName, "쇠갑옷");
 	strcpy_s(tStoreArmor[1].strTypeName, "옷");
 	strcpy_s(tStoreArmor[1].strDesc, "빛남");
@@ -303,7 +303,7 @@ int main()
 	tStoreArmor[2].iMax = 9999;
 	tStoreArmor[2].iPrice = 9900000;
 	tStoreArmor[2].isell = 9900000;
-	
+
 
 
 	while (true)
@@ -547,8 +547,8 @@ int main()
 						if (cin.fail())
 						{
 							cin.clear();
-								cin.ignore(1024, '\n');
-								continue;
+							cin.ignore(1024, '\n');
+							continue;
 						}
 
 						else if (iMenu == STORE_WEAPON_MAX + 1)
@@ -671,26 +671,75 @@ int main()
 
 		case MM_INVENTORY:
 
-			cout << "====================== 가방 =================" << endl;
-			cout << "이름 :" << tPlayer.strName << "\t직업 :" << tPlayer.strJobName << endl;
-			cout << "레벨 :" << tPlayer.iLevel << "\t경험치 :" << tPlayer.iExp << endl;
-			cout << "공격력 :" << tPlayer.iAttackMin << "~" << tPlayer.IAttackMax << "\t방어력 :" << tPlayer.iArmorMin << "~" << tPlayer.iArmorMax << endl;
-			cout << "체력 :" << tPlayer.iHP << "/" << tPlayer.iHPMax << "\t마나 :" << tPlayer.iMP << "/" << tPlayer.iMPMax << endl;
-			cout << "보유골드 :" << tPlayer.tInventory.iGold << "Gold" << endl << endl;
-
-			for (int i = 0; i < tPlayer.tInventory.iItemiCount; ++i)
+			while (true)
 			{
-				cout << i + 1 << "이름 :" << tPlayer.tInventory.tItem[i].strName << "\t종류 :" << tPlayer.tInventory.tItem[i].strTypeName << endl;
-				cout << "공격력 :" << tPlayer.tInventory.tItem[i].iMIn << "~" << tPlayer.tInventory.tItem[i].iMax << endl;
-				cout << "가격 :" << tPlayer.tInventory.tItem[i].iPrice << "\t구매하기" << tPlayer.tInventory.tItem[i].isell << endl;
-				cout << "설명 :" << tPlayer.tInventory.tItem[i].strDesc << endl << endl;
+
+
+				system("cls");
+				cout << "====================== 가방 =================" << endl;
+				cout << "이름 :" << tPlayer.strName << "\t직업 :" << tPlayer.strJobName << endl;
+				cout << "레벨 :" << tPlayer.iLevel << "\t경험치 :" << tPlayer.iExp << endl;
+				cout << "공격력 :" << tPlayer.iAttackMin << "~" << tPlayer.IAttackMax << "\t방어력 :" << tPlayer.iArmorMin << "~" << tPlayer.iArmorMax << endl;
+				cout << "체력 :" << tPlayer.iHP << "/" << tPlayer.iHPMax << "\t마나 :" << tPlayer.iMP << "/" << tPlayer.iMPMax << endl;
+				cout << "보유골드 :" << tPlayer.tInventory.iGold << "Gold" << endl << endl;
+
+				for (int i = 0; i < tPlayer.tInventory.iItemiCount; ++i)
+				{
+					cout << i + 1 << "이름 :" << tPlayer.tInventory.tItem[i].strName << "\t종류 :" << tPlayer.tInventory.tItem[i].strTypeName << endl;
+					cout << "공격력 :" << tPlayer.tInventory.tItem[i].iMIn << "~" << tPlayer.tInventory.tItem[i].iMax << endl;
+					cout << "가격 :" << tPlayer.tInventory.tItem[i].iPrice << "\t구매하기" << tPlayer.tInventory.tItem[i].isell << endl;
+					cout << "설명 :" << tPlayer.tInventory.tItem[i].strDesc << endl << endl;
+				}
+				cout << tPlayer.tInventory.iItemiCount + 1 << "뒤로가기" << endl;
+				cout << "장착할 아이템을 선택하세요 :";
+				cin >> iMenu;
+
+				if (cin.fail())
+				{
+					cin.clear();
+					cin.ignore(1024, '\n');
+					continue;
+				}
+
+				else if (iMenu == tPlayer.tInventory.iItemiCount + 1)
+					break;
+
+				else if (iMenu < 1 || iMenu > tPlayer.tInventory.iItemiCount + 1)
+				{
+					cout << "잘못 선택하였습니다" << endl;
+					system("pause");
+					continue;
+				}
+
+				// 아이템 인덱스를 구해준다
+				int idx = iMenu - 1;
+
+				// 제대로 선택했을 경우 해당 아이템 종류에 따라 장착 부위를 결정하게 한다
+				EQUIP eq;
+
+				switch (tPlayer.tInventory.tItem[idx].etype)
+				{
+				case IT_WEAPON :
+					eq = EQ_WEAPON;
+					break;
+
+				case IT_ARMOR :
+					eq = EQ_ARMOR;
+					break;
+				}
+
+				// 아이템이 장착되어 있을 경우 장착되어있는 아이템과 장착할 아이템을 교체해 주어야한다. Swap 알고리즘을 활용한다
+				if (tPlayer.bEquip[eq] == true)
+				{
+
+				}
+
+
+				system("pause");
+				;
 			}
 
-		
-			
-			system("pause");
 			break;
-
 		default:
 			cout << "잘못 선택 하였습니다" << endl;
 
