@@ -1,2 +1,4 @@
 ﻿  TextRPG.cpp
+C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG\TextRPG\TextRPG.cpp(536,17): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG\TextRPG\TextRPG.cpp(537,18): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   TextRPG.vcxproj -> C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG\x64\Debug\TextRPG.exe

@@ -808,7 +808,7 @@ int main()
 				int idx = iMenu - 1;
 
 				// 제대로 선택했을 경우 해당 아이템 종류에 따라 장착 부위를 결정하게 한다
-				EQUIP eq;
+				EQUIP  eq = {};
 
 				switch (tPlayer.tInventory.tItem[idx].etype)
 				{
@@ -817,16 +817,16 @@ int main()
 					break;
 
 				case IT_ARMOR:
-					eq = EQ_ARMOR;
+					eq = EQ_ARMOR ;
 					break;
-				}
+				};
 
 				// 아이템이 장착되어 있을 경우 장착되어있는 아이템과 장착할 아이템을 교체해 주어야한다. Swap 알고리즘을 활용한다
 				if (tPlayer.bEquip[eq] == true)
 				{
-					_tagItem iSwap = tPlayer.tEquip[eq];
+					_tagItem tSwap = tPlayer.tEquip[eq];
 					tPlayer.tEquip[eq] = tPlayer.tInventory.tItem[idx];
-					tPlayer.tInventory.tItem[idx] = iSwap;
+					tPlayer.tInventory.tItem[idx] = tSwap;
 				}
 
 				// 장착 되어 있지 않을 경우 인벤토리 아이템을 장착창으로 옮기고
