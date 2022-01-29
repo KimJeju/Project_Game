@@ -65,6 +65,7 @@ enum EQUIP
 #define INVENTORY_MAX 20 // 인벤토리 아이템 최대치
 #define STORE_WEAPON_MAX 3 // 무기상점 판매개수
 #define STORE_ARMOR_MAX 3 //방어구상점 판매개수
+#define LEVEL_MAX 10
 
 struct _tagItem
 {
@@ -128,6 +129,10 @@ struct _tagMonster
 int main()
 {
 	srand((unsigned int)time(0));
+
+	// 레벨업에 필요한 경험치 목록을 만든다 
+
+	const int iLevelUpExp[LEVEL_MAX] = { 4000, 10000, 20000, 35000, 50000, 70000, 100000, 150000, 200000, 400000};
 
 	// 게임을 시작할 때 플레이어 정보를 설정하게 한다.
 	_tagPlayer tPlayer = {};
@@ -383,7 +388,7 @@ int main()
 					//플레이어 정보 출력.
 					cout << "================ Player =================" << endl;
 					cout << "이름 :" << tPlayer.strName << "\t직업 :" << tPlayer.strJobName << endl;
-					cout << "레벨 :" << tPlayer.iLevel << "\t경험치 :" << tPlayer.iExp << endl;
+					cout << "레벨 :" << tPlayer.iLevel << "\t경험치 :" << tPlayer.iExp << " / "  << iLevelUpExp[tPlayer.iLevel - 1] << endl;
 
 					//무기를 장착하고 있을 경우에 공격력의 무기에 공격력을 추가하여 출력한다
 					if (tPlayer.bEquip[EQ_WEAPON] == true)
@@ -505,6 +510,19 @@ int main()
 
 							tMonster.iHP = tMonster.iHPMax;
 							tMonster.iMP = tMonster.iMPMax;
+
+
+							// 레벨업을 했는지 체크해본다
+							if (tPlayer.iExp >= iLevelUpExp[tPlayer.iLevel - 1])
+							{
+								//플레이어 경험치를 레벨업에 필요한 경험치 만큼 차감한다.
+								tPlayer.iExp -= iLevelUpExp[tPlayer.iLevel - 1];
+
+								//레벨을 증가시킨다.
+								++tPlayer.iLevel;
+
+								cout << "레벨업 하였습니다." << endl;
+							}
 
 							system("pause");
 							break;
@@ -734,7 +752,7 @@ int main()
 				system("cls");
 				cout << "====================== 가방 =================" << endl;
 				cout << "이름 :" << tPlayer.strName << "\t직업 :" << tPlayer.strJobName << endl;
-				cout << "레벨 :" << tPlayer.iLevel << "\t경험치 :" << tPlayer.iExp << endl;
+				cout << "레벨 :" << tPlayer.iLevel << "\t경험치 :" << tPlayer.iExp << " / " << iLevelUpExp[tPlayer.iLevel - 1] << endl;
 
 				//무기를 장착하고 있을 경우에 공격력의 무기에 공격력을 추가하여 출력한다
 				if (tPlayer.bEquip[EQ_WEAPON] == true)
