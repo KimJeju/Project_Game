@@ -126,6 +126,20 @@ struct _tagMonster
 
 };
 
+struct _tagLevelUpStatus
+{
+	int iAttackMin;
+	int iAttackMax;
+	int iArmorMin;
+	int iArmorMax;
+	int iHPMin;
+	int iHPMax;
+	int iMPMin;
+	int iMPMax;
+
+
+};
+
 int main()
 {
 	srand((unsigned int)time(0));
@@ -133,6 +147,18 @@ int main()
 	// 레벨업에 필요한 경험치 목록을 만든다 
 
 	const int iLevelUpExp[LEVEL_MAX] = { 4000, 10000, 20000, 35000, 50000, 70000, 100000, 150000, 200000, 400000};
+
+	// JOB_END 는 4이나, 그런데 직업은 3개이므로 -1을 해주어서 배열을 각 직업별로 생성하도록 한다.
+	_tagLevelUpStatus tLvUpTable[JOB_END - 1] = {};
+
+	tLvUpTable[JOB_NIGHT - 1].iArmorMin = 4;
+	tLvUpTable[JOB_NIGHT - 1].iArmorMax = 10;
+	tLvUpTable[JOB_NIGHT - 1].iArmorMin = 4;
+	tLvUpTable[JOB_NIGHT - 1].iArmorMax = 10;
+
+
+
+
 
 	// 게임을 시작할 때 플레이어 정보를 설정하게 한다.
 	_tagPlayer tPlayer = {};
