@@ -151,13 +151,33 @@ int main()
 	// JOB_END 는 4이나, 그런데 직업은 3개이므로 -1을 해주어서 배열을 각 직업별로 생성하도록 한다.
 	_tagLevelUpStatus tLvUpTable[JOB_END - 1] = {};
 
-	tLvUpTable[JOB_NIGHT - 1].iArmorMin = 4;
-	tLvUpTable[JOB_NIGHT - 1].iArmorMax = 10;
-	tLvUpTable[JOB_NIGHT - 1].iArmorMin = 4;
-	tLvUpTable[JOB_NIGHT - 1].iArmorMax = 10;
+	tLvUpTable[JOB_NIGHT - 1].iAttackMin = 4;
+	tLvUpTable[JOB_NIGHT - 1].iAttackMax = 10;
+	tLvUpTable[JOB_NIGHT - 1].iArmorMin = 8;
+	tLvUpTable[JOB_NIGHT - 1].iArmorMax = 16;
+	tLvUpTable[JOB_NIGHT - 1].iHPMin = 50;
+	tLvUpTable[JOB_NIGHT - 1].iHPMax = 100;
+	tLvUpTable[JOB_NIGHT - 1].iMPMin = 10;
+	tLvUpTable[JOB_NIGHT - 1].iMPMax = 20;
+
+	tLvUpTable[JOB_ARCHER - 1].iAttackMin = 10;
+	tLvUpTable[JOB_ARCHER - 1].iAttackMax = 15;
+	tLvUpTable[JOB_ARCHER - 1].iArmorMin = 5;
+	tLvUpTable[JOB_ARCHER - 1].iArmorMax = 10;
+	tLvUpTable[JOB_ARCHER - 1].iHPMin = 30;
+	tLvUpTable[JOB_ARCHER - 1].iHPMax = 60;
+	tLvUpTable[JOB_ARCHER - 1].iMPMin = 30;
+	tLvUpTable[JOB_ARCHER - 1].iMPMax = 50;
 
 
-
+	tLvUpTable[JOB_WIZARD - 1].iAttackMin = 15;
+	tLvUpTable[JOB_WIZARD - 1].iAttackMax = 20;
+	tLvUpTable[JOB_WIZARD - 1].iArmorMin = 3;
+	tLvUpTable[JOB_WIZARD - 1].iArmorMax = 7;
+	tLvUpTable[JOB_WIZARD - 1].iHPMin = 30;
+	tLvUpTable[JOB_WIZARD - 1].iHPMax = 40;
+	tLvUpTable[JOB_WIZARD - 1].iMPMin = 50;
+	tLvUpTable[JOB_WIZARD - 1].iMPMax = 100;
 
 
 	// 게임을 시작할 때 플레이어 정보를 설정하게 한다.
@@ -548,6 +568,12 @@ int main()
 								++tPlayer.iLevel;
 
 								cout << "레벨업 하였습니다." << endl;
+
+								// 능력치를 상승시킨다.
+								// 직업 인덱스를 구한다
+
+
+								int iAttackUp = rand() & (tLvUpTable[tPlayer.ejob - 1] - iAttackmin + 1) + iAttackmin;
 							}
 
 							system("pause");
