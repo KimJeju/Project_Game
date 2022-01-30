@@ -211,7 +211,7 @@ int main()
 	tPlayer.iLevel = 1;
 	tPlayer.iExp = 0;
 	tPlayer.ejob = (JOB)iJob;
-	tPlayer.tInventory.iGold = 99999999;
+	tPlayer.tInventory.iGold = 10000;
 
 	switch (tPlayer.ejob)
 	{
