@@ -213,6 +213,9 @@ int main()
 	tPlayer.ejob = (JOB)iJob;
 	tPlayer.tInventory.iGold = 10000;
 
+
+	//히힣 
+
 	switch (tPlayer.ejob)
 	{
 	case JOB_NIGHT:
