@@ -1,6 +1,11 @@
 {
   "Version": 1,
   "ProjectMap": {
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "기타 파일",
+      "ColorIndex": -1
+    },
     "8dcdf35b-373b-43ae-a3fa-f3987c08957d": {
       "ProjectGuid": "8dcdf35b-373b-43ae-a3fa-f3987c08957d",
       "DisplayName": "TextRPG_FUNC_VER",
