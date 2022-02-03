@@ -105,6 +105,26 @@ struct _tagPlayer
 };
 
 
+struct _tagMonster
+{
+	char strName[NAME_SIZE];
+	int iAttackMin;
+	int iAttackMax;
+	int iArmorMin;
+	int iArmorMax;
+	int iHP;
+	int iHPMax;
+	int iMP;
+	int iMPMax;
+	int iLevel;
+	int iExp; // 획득 Exp;
+	int iGoldMin;
+	int iGoldMax;
+
+};
+
+
+
 
 //숫자를 입력받는다. 입력 오류까지 처리해주고 INT_MAX를 리턴하면 입력오류다
 int Inputint()
@@ -143,49 +163,6 @@ int OutPutMainMenu()
 }
 
 
-int OutPutMapMenu()
-{
-	system("cls");
-	cout << "====================== 맵 =================" << endl;
-	cout << "1. 쉬움" << endl;
-	cout << "2. 보통" << endl;
-	cout << "3. 어려움" << endl;
-	cout << "4. 뒤로가기" << endl;
-	cout << "맵을 선택하세요 :";
-	int iMenu = Inputint();
-
-
-	if (iMenu == INT_MAX || iMenu <= MT_NONE || iMenu > MT_BACK)
-		return MT_NONE;
-
-	return iMenu;
-}
-
-//맵에 관련된 동작을 처리한다.
-void RunMap()
-{
-	bool bLoop(true);
-
-	while (bLoop)
-	{
-		switch (OutPutMapMenu())
-		{
-		case MT_EASY:
-			break;
-
-		case MT_NOMAL:
-			break;
-
-		case MT_HARD:
-			break;
-
-		case MT_BACK:
-			bLoop = false;
-			break;
-		}
-	}
-}
-
 int SelectJob()
 {
 
@@ -206,8 +183,8 @@ int SelectJob()
 	}
 
 	return iJob;
-
 }
+
 
 void SetPLayer(_tagPlayer* pPlayer)
 {
@@ -256,10 +233,78 @@ void SetPLayer(_tagPlayer* pPlayer)
 		pPlayer->iMP = 300;
 		break;
 	}
+}
+
+_tagMonster CreateMonster(char* pName, int iAttackMIn, int iAttackMax, int iArmorMin, int iArmorMax, int iHP, int iMP, int iLevel, int iExp, int iGoldMin, int iGoldMax)
+{
+	_tagMonster tMonster = {};
+
+	strcpy_s(tMonster.strName, pName);
+	tMonster.iAttackMin = iAttackMIn;
+	tMonster.iAttackMax = iAttackMax;
+	tMonster.iArmorMin = iArmorMin;
+	tMonster.iArmorMax = iArmorMax;
+	tMonster.iHP = iHP;
+	tMonster.iHPMax = iHP;
+	tMonster.iMP = iMP;
+	tMonster.iMPMax = iMP;
+	tMonster.iLevel = iLevel;
+	tMonster.iExp = iExp;
+	tMonster.iGoldMin = iGoldMin;
+	tMonster.iGoldMax = iGoldMax;
+}
 
 
+void SetMonster(_tagMonster* pMonsterArr)
+{
+	pMonsterArr[0] = CreateMonster("고블린", 20, 30, 2, 5, 100, 10, 1, 1000, 500, 1500);
+	pMonsterArr[1] = CreateMonster("트롤", 80, 130, 60, 90, 2000, 100, 5, 7000, 6000, 8000);
+	pMonsterArr[2] = CreateMonster("드래곤", 250, 500, 200, 400, 30000, 20000, 10, 30000, 20000, 50000);
 
 }
+
+void RunBattle(_tagPlayer* pPlayer, _tagMonster* pMonsterArr, int iMenu)
+{
+
+}
+
+
+int OutPutMapMenu()
+{
+	system("cls");
+	cout << "====================== 맵 =================" << endl;
+	cout << "1. 쉬움" << endl;
+	cout << "2. 보통" << endl;
+	cout << "3. 어려움" << endl;
+	cout << "4. 뒤로가기" << endl;
+	cout << "맵을 선택하세요 :";
+	int iMenu = Inputint();
+
+
+	if (iMenu == INT_MAX || iMenu <= MT_NONE || iMenu > MT_BACK)
+		return MT_NONE;
+
+	return iMenu;
+}
+
+
+//맵에 관련된 동작을 처리한다.
+void RunMap(_tagPlayer* pPlayer, _tagMonster* pMonsterArr)
+{
+	bool bLoop(true);
+
+	while (bLoop)
+	{
+		int iMenu = OutPutMapMenu();
+
+		if (MT_BACK == iMenu)
+			return;
+
+		// 전투를 시작한다.
+		RunBattle(pPlayer, pMonsterArr, iMenu)
+	}
+}
+
 
 int main()
 {
@@ -272,6 +317,13 @@ int main()
 	// 플레이어 정보를 정의한다.
 	SetPLayer(&tPlayer);
 
+
+	// 몬스터를 생성한다
+	_tagMonster tMonsterArr[MT_BACK - 1] = {};
+
+	SetMonster(tMonsterArr);
+
+
 	bool bLoop = true;
 
 	while (bLoop)
@@ -279,7 +331,7 @@ int main()
 		switch (OutPutMainMenu())
 		{
 		case MM_MAP:
-			RunMap(); // 맵 관련 루프를 처리한다.
+			RunMap(&tPlayer, tMonsterArr); // 맵 관련 루프를 처리한다.
 			break;
 
 		case MM_STORE:
