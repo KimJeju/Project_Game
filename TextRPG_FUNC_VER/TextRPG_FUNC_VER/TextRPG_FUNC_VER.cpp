@@ -248,10 +248,11 @@ void SetPLayer(_tagPlayer* pPlayer)
 	}
 }
 
-_tagMonster CreateMonster(int iAttackMIn, int iAttackMax, int iArmorMin, int iArmorMax, int iHP, int iMP, int iLevel, int iExp, int iGoldMin, int iGoldMax)
+_tagMonster CreateMonster(const char* pName, int iAttackMIn, int iAttackMax, int iArmorMin, int iArmorMax, int iHP, int iMP, int iLevel, int iExp, int iGoldMin, int iGoldMax)
 {
 	_tagMonster tMonster = {};
 
+	strcpy_s(tMonster.strName, pName);
 	tMonster.iAttackMin = iAttackMIn;
 	tMonster.iAttackMax = iAttackMax;
 	tMonster.iArmorMin = iArmorMin;
@@ -264,14 +265,16 @@ _tagMonster CreateMonster(int iAttackMIn, int iAttackMax, int iArmorMin, int iAr
 	tMonster.iExp = iExp;
 	tMonster.iGoldMin = iGoldMin;
 	tMonster.iGoldMax = iGoldMax;
+
+	return tMonster;
 }
 
 
 void SetMonster(_tagMonster* pMonsterArr)
 {
-	pMonsterArr[0] = CreateMonster(20,30,3,5,100,10,1,1000,500,1500);
-	pMonsterArr[1] = CreateMonster(80, 130, 60, 90, 2000, 100, 5, 7000, 6000, 8000);
-	pMonsterArr[2] = CreateMonster( 250, 500, 200, 400, 30000, 20000, 10, 30000, 20000, 50000);
+	pMonsterArr[0] = CreateMonster("고블린",20,30,3,5,100,10,1,1000,500,1500);
+	pMonsterArr[1] = CreateMonster("트롤",80, 130, 60, 90, 2000, 100, 5, 7000, 6000, 8000);
+	pMonsterArr[2] = CreateMonster("드래곤", 250, 500, 200, 400, 30000, 20000, 10, 30000, 20000, 50000);
 
 }
 
