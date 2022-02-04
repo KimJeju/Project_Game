@@ -632,9 +632,90 @@ int OutPutStoreMenu()
 	return iMenu;
 }
 
-void BuyItem(_tagInventory* pInventory, _tagItem* pStore, int iItemcount)
+int OutPutStoreItemList(_tagInventory* pInventory, _tagItem* pStore, int iItemcount)
 {
+	//판매 목록을 보여준다.
+	for (int i = 0; i < iItemcount; ++i)
+	{
+		cout << i + 1 << "이름 :" << pStore[i].strName << "\t종류 :" << pStore[i].strTypeName << endl;
+		cout << "공격력 :" << pStore[i].iMIn << "~" << pStore[i].iMax << endl;
+		cout << "가격 :" << pStore[i].iPrice << "\t구매하기" << pStore[i].isell << endl;
+		cout << "설명 :" << pStore[i].strDesc << endl << endl;
+	}
+	cout << iItemcount + 1 << ", 뒤로가기" << endl;
+	cout << "보유금액 :" << pInventory->iGold << "Gold" << endl;
+	cout << "보유공간 :" << INVENTORY_MAX - pInventory->iItemiCount << endl;
+	cout << "구입할 아아템을 입력하세요 :";
+	int iMenu = Inputint();
 
+	if (iMenu < 1 || iMenu > iItemcount + 1)
+		return INT_MAX;
+
+	return iMenu;
+
+}
+
+void BuyItem(_tagInventory* pInventory, _tagItem* pStore, int iItemcount, int iStoreType)
+{
+	while (true)
+	{
+		system("cls");
+		switch (iStoreType)
+		{
+		case SM_WEAPON:
+			cout << "====================== 무기상점 =================" << endl;
+			break;
+
+		case SM_ARMOR:
+			cout << "====================== 방어구상점 =================" << endl;
+			break;
+		}
+		int iInput = OutPutStoreItemList(pInventory,pStore, iItemcount);
+
+		if (iInput == INT_MAX)
+		{
+			cout << "잘못입력 하셨습니다." << endl;
+			system("pause");
+			continue;
+		}
+
+		else if (iInput == iItemcount + 1)
+			break;
+
+		// 상점판매목록 배열이 인덱스를 구해준다.
+		int iIndex = iInput - 1;
+		//인벤토리가 꽉 찼는지 검사한다.
+		if (tPlayer.tInventory.iItemiCount == INVENTORY_MAX)
+		{
+			cout << "인벤토리가 꽉 찼습니다" << endl;
+			system("pause");
+			continue;
+		}
+
+		// 돈이 부족할 경우
+		else if (tPlayer.tInventory.iGold < tStoreWeapon[iWeaponIdex].iPrice)
+		{
+			cout << "보유금액이 부족합니다." << endl;
+			system("pause");
+			continue;
+		}
+
+
+		// 처음에 iItemCount 는 하나도 추가되어 있지 않기 때문에 0으로 초기화 되어있으므로
+		// 0번 인덱스에 구매한 아이템을 추가하게 된다. 그리고 카운이트가 1 이 된다. 다음번에 구매할 떄는 1번 인덱스에 추가하게 된다
+		pInventory->tItem[pInventory->iItemiCount] = tStoreWeapon[iWeaponIdex];
+		++tPlayer.tInventory.iItemiCount;
+
+		// 골드를 차감한다
+		tPlayer.tInventory.iGold -= tStoreWeapon[iWeaponIdex].iPrice;
+		cout << tStoreWeapon[iWeaponIdex].strName << " 이이템을 구매하였습니다" << endl;
+		system("pause");
+
+
+		
+        
+		
+	}
 }
 
 void RunStore(_tagInventory* pInventory, _tagItem* pWeapon, _tagItem* pArmor)
@@ -644,8 +725,11 @@ void RunStore(_tagInventory* pInventory, _tagItem* pWeapon, _tagItem* pArmor)
 		switch (OutPutStoreMenu())
 		{
 		case SM_WEAPON:
+			BuyItem(pInventory, pWeapon,STORE_WEAPON_MAX,SM_WEAPON);
 			break;
 		case SM_ARMOR:
+			BuyItem(pInventory, pArmor,STORE_ARMOR_MAX,SM_ARMOR);
+
 			break;
 		case SM_BACK:
 			return;
