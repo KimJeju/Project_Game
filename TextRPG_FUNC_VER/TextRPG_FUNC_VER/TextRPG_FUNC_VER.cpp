@@ -2,6 +2,8 @@
 #include <time.h>
 using namespace std;
 
+//방어구 상점 오류 발생 차후 수정 예정
+
 enum MAIN_MENU
 {
 	MM_NONE,
