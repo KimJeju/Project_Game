@@ -685,7 +685,7 @@ void BuyItem(_tagInventory* pInventory, _tagItem* pStore, int iItemcount, int iS
 		// 상점판매목록 배열이 인덱스를 구해준다.
 		int iIndex = iInput - 1;
 		//인벤토리가 꽉 찼는지 검사한다.
-		if (tPlayer.tInventory.iItemiCount == INVENTORY_MAX)
+		if (pInventory->iItemiCount == INVENTORY_MAX)
 		{
 			cout << "인벤토리가 꽉 찼습니다" << endl;
 			system("pause");
@@ -693,7 +693,7 @@ void BuyItem(_tagInventory* pInventory, _tagItem* pStore, int iItemcount, int iS
 		}
 
 		// 돈이 부족할 경우
-		else if (tPlayer.tInventory.iGold < tStoreWeapon[iWeaponIdex].iPrice)
+		else if (pInventory->iGold < pStore[iIndex].iPrice)
 		{
 			cout << "보유금액이 부족합니다." << endl;
 			system("pause");
@@ -703,12 +703,12 @@ void BuyItem(_tagInventory* pInventory, _tagItem* pStore, int iItemcount, int iS
 
 		// 처음에 iItemCount 는 하나도 추가되어 있지 않기 때문에 0으로 초기화 되어있으므로
 		// 0번 인덱스에 구매한 아이템을 추가하게 된다. 그리고 카운이트가 1 이 된다. 다음번에 구매할 떄는 1번 인덱스에 추가하게 된다
-		pInventory->tItem[pInventory->iItemiCount] = tStoreWeapon[iWeaponIdex];
-		++tPlayer.tInventory.iItemiCount;
+		pInventory->tItem[pInventory->iItemiCount] = pStore[iIndex];
+		++pInventory->iItemiCount;
 
 		// 골드를 차감한다
-		tPlayer.tInventory.iGold -= tStoreWeapon[iWeaponIdex].iPrice;
-		cout << tStoreWeapon[iWeaponIdex].strName << " 이이템을 구매하였습니다" << endl;
+		pInventory->iGold -= pStore[iIndex].iPrice;
+		cout << pStore[iIndex].strName << " 이이템을 구매하였습니다" << endl;
 		system("pause");
 
 
@@ -765,6 +765,104 @@ _tagItem CreateItem(const char* pName, ITEM_TYPE eType, int iMin, int iMax, int 
 	return tiTem;
 }
 
+int OutPutInventory(_tagPlayer* pPlayer)
+{
+	system("cls");
+	cout << "====================== 가방 =================" << endl;
+
+	OutPutPlayer(pPlayer);
+
+	for (int i = 0; i < pPlayer->tInventory.iItemiCount; ++i)
+	{
+		cout << i + 1 << "이름 :" << pPlayer->tInventory.tItem[i].strName << "\t종류 :" << pPlayer->tInventory.tItem[i].strTypeName << endl;
+		cout << "공격력 :" << pPlayer->tInventory.tItem[i].iMIn << "~" << pPlayer->tInventory.tItem[i].iMax << endl;
+		cout << "가격 :" << pPlayer->tInventory.tItem[i].iPrice << "\t구매하기" << pPlayer->tInventory.tItem[i].isell << endl;
+		cout << "설명 :" << pPlayer->tInventory.tItem[i].strDesc << endl << endl;
+	}
+	cout << pPlayer->tInventory.iItemiCount + 1 << "뒤로가기" << endl;
+	cout << "장착할 아이템을 선택하세요 :";
+
+	int iMenu = Inputint();
+
+	if (iMenu < 1 || iMenu > pPlayer->tInventory.iItemiCount + 1)
+		return INT_MAX;
+
+
+	return iMenu;
+
+
+}
+
+EQUIP ComputerEquipType(ITEM_TYPE eType)
+{
+	EQUIP eq;
+
+	switch (eType)
+	{
+	case IT_WEAPON:
+		eq = EQ_WEAPON;
+		break;
+
+	case IT_ARMOR:
+		eq = EQ_ARMOR;
+		break;
+	}
+
+	return eq;
+}
+
+void RunInventory(_tagPlayer* pPlayer)
+{
+
+	while (true)
+	{
+		int iInput = OutPutInventory(pPlayer);
+
+		if (iInput == INT_MAX)
+			continue;
+
+		else if (iInput == pPlayer->tInventory.iItemiCount + 1)
+			break;
+
+		// 아이템 인덱스를 구해준다
+		int idx = iInput - 1;
+
+		// 제대로 선택했을 경우 해당 아이템 종류에 따라 장착 부위를 결정하게 한다
+		EQUIP eq  = ComputerEquipType(pPlayer->tInventory.tItem[idx].eType);
+
+		// 아이템이 장착되어 있을 경우 장착되어있는 아이템과 장착할 아이템을 교체해 주어야한다. Swap 알고리즘을 활용한다
+		if (pPlayer->bEquip[eq] == true)
+		{
+			_tagItem tSwap = pPlayer->tEquip[eq];
+			pPlayer->tEquip[eq] = pPlayer->tInventory.tItem[idx];
+			pPlayer->tInventory.tItem[idx] = tSwap;
+		}
+
+		// 장착 되어 있지 않을 경우 인벤토리 아이템을 장착창으로 옮기고
+		// 인벤토리도 1칸 비지게 된다
+		else
+		{
+			pPlayer->tEquip[eq] = pPlayer->tInventory.tItem[idx];
+
+			for (int i = idx; i < pPlayer->tInventory.iItemiCount - 1; ++i)
+			{
+				pPlayer->tInventory.tItem[i] = pPlayer->tInventory.tItem[i + 1];
+			}
+
+			--pPlayer->tInventory.iItemiCount;
+
+			//장착을 했기 때문에 true로 만들어 준다
+			pPlayer->bEquip[eq] = true;
+		}
+
+		cout << pPlayer->tEquip[eq].strName << "아이템을 장착하였습니다." << endl;
+
+		system("pause");
+
+
+	}
+}
+
 int main()
 {
 	srand((unsigned int)time(0));
@@ -817,6 +915,7 @@ int main()
 			break;
 
 		case MM_INVENTORY:
+			RunInventory(&tPlayer);
 			break;
 
 		case MM_EXIT:
