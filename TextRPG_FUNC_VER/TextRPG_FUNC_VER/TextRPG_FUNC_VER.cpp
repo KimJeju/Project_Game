@@ -75,7 +75,6 @@ enum BATTLE
 // 레벨업에 필요한 경험치 목록을 만든다 
 
 
-
 struct _tagItem
 {
 	char strName[NAME_SIZE];
@@ -88,6 +87,15 @@ struct _tagItem
 	char strDesc[ITEM_DESC_LENGTH]; //아이템 설명
 
 };
+
+
+struct _tagInventory
+{
+	_tagItem tItem[INVENTORY_MAX];
+	int iItemiCount;
+	int iGold;
+};
+
 
 
 struct _tagPlayer
@@ -127,14 +135,6 @@ struct _tagMonster
 	int iGoldMin;
 	int iGoldMax;
 
-};
-
-
-struct _tagInventory
-{
-	_tagItem tItem[INVENTORY_MAX];
-	int iItemiCount;
-	int iGold;
 };
 
 
@@ -443,7 +443,7 @@ void Battle(_tagPlayer* pPlayer, _tagMonster* pMonster)
 		cout << pMonster->strName << "몬스터가 사망하였습니다" << endl;
 		pPlayer->iExp += pMonster->iExp;
 		int iGold = (rand() % (pMonster->iGoldMax - pMonster->iGoldMin + 1) + pMonster->iGoldMin);
-		pMonster->tInventory.iGold += iGold;
+		pPlayer->tInventory.iGold += iGold;
 
 		cout << pMonster->iExp << "경험치를 획득하였습니다" << endl;
 		cout << iGold << "골드를 획득하였습니다." << endl;
@@ -550,7 +550,6 @@ void RunBattle(_tagPlayer* pPlayer, _tagMonster* pMonsterArr, int iMenu)
 			{
 			case BATTLE_ATTACK:
 				Battle(pPlayer, &tMonster);
-				system("pause");
 				break;
 
 			case BATTLE_BACK:
@@ -617,6 +616,13 @@ _tagLevelUpStatus CreateLvUp(int iAttackMin, int iAttackMax, int iArmorMin, int 
 	return tStatus;
 }
 
+
+void RunStore(_tagInventory* pInventory)
+{
+
+}
+
+
 int main()
 {
 	srand((unsigned int)time(0));
@@ -637,6 +643,11 @@ int main()
 	g_tLvUpTable[JOB_NIGHT - 1] = CreateLvUp(4,10,8,16,50,100,10,20);
 	g_tLvUpTable[JOB_ARCHER - 1] = CreateLvUp(10,15,5,10,30,60,30,50);
 	g_tLvUpTable[JOB_WIZARD - 1] = CreateLvUp(15,20,3,7,30,40,50,100);
+
+
+	_tagItem tStoreWeapon[STORE_WEAPON_MAX] = {};
+	_tagItem tStoreArmor[STORE_ARMOR_MAX] = {};
+
 
 
 	bool bLoop = true;

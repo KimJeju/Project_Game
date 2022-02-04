@@ -1,14 +1,4 @@
 ﻿  TextRPG_FUNC_VER.cpp
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(141,1): error C2011: '_tagInventory': 'struct' 형식 재정의
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(93): message : '_tagInventory' 선언을 참조하십시오.
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(237,21): error C2027: 정의되지 않은 형식 '_tagInventory'을(를) 사용했습니다.
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(93): message : '_tagInventory' 선언을 참조하십시오.
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(373,49): error C2027: 정의되지 않은 형식 '_tagInventory'을(를) 사용했습니다.
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(93): message : '_tagInventory' 선언을 참조하십시오.
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(453,13): error C2039: 'tInventory': '_tagMonster'의 멤버가 아닙니다.
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(121): message : '_tagMonster' 선언을 참조하십시오.
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(524,12): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(525,34): error C2027: 정의되지 않은 형식 '_tagInventory'을(를) 사용했습니다.
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(93): message : '_tagInventory' 선언을 참조하십시오.
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(528,22): error C2027: 정의되지 않은 형식 '_tagInventory'을(를) 사용했습니다.
-C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(93): message : '_tagInventory' 선언을 참조하십시오.
+C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(517,12): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\TextRPG_FUNC_VER\TextRPG_FUNC_VER.cpp(518,13): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  TextRPG_FUNC_VER.vcxproj -> C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\TextRPG_FUNC_VER\x64\Debug\TextRPG_FUNC_VER.exe
