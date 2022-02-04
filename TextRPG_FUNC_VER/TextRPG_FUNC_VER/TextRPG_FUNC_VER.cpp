@@ -79,7 +79,7 @@ struct _tagItem
 {
 	char strName[NAME_SIZE];
 	char strTypeName[NAME_SIZE];
-	ITEM_TYPE etype;
+	ITEM_TYPE eType;
 	int iMIn;
 	int iMax;
 	int iPrice;
@@ -616,12 +616,70 @@ _tagLevelUpStatus CreateLvUp(int iAttackMin, int iAttackMax, int iArmorMin, int 
 	return tStatus;
 }
 
+int OutPutStoreMenu()
+{
+	system("cls");
+	cout << "====================== 상점 =================" << endl;
+	cout << "1. 무기상점" << endl;
+	cout << "2. 방어구상점" << endl;
+	cout << "3. 뒤로가기" << endl;
+	cout << "상점을 선택하세요" << endl;
+	int iMenu = Inputint();
 
-void RunStore(_tagInventory* pInventory)
+	if (iMenu < SM_NONE || iMenu > SM_BACK)
+		return SM_NONE;
+
+	return iMenu;
+}
+
+void BuyItem(_tagInventory* pInventory, _tagItem* pStore, int iItemcount)
 {
 
 }
 
+void RunStore(_tagInventory* pInventory, _tagItem* pWeapon, _tagItem* pArmor)
+{
+	while (true)
+	{
+		switch (OutPutStoreMenu())
+		{
+		case SM_WEAPON:
+			break;
+		case SM_ARMOR:
+			break;
+		case SM_BACK:
+			return;
+		}
+
+	}
+}
+
+_tagItem CreateItem(const char* pName, ITEM_TYPE eType, int iMin, int iMax, int iPrice, int ISell, const char* pDesc)
+{
+	_tagItem tiTem = {};
+
+	strcpy_s(tiTem.strName, pName);
+	strcpy_s(tiTem.strDesc, pDesc);
+	
+	tiTem.eType = eType;
+
+	switch (eType)
+	{
+	case IT_WEAPON:
+		strcpy_s(tiTem.strName, "무기");
+		break;
+	case IT_ARMOR:
+		strcpy_s(tiTem.strName, "방어구");
+		break;
+	}
+
+	tiTem.iMIn = iMin;
+	tiTem.iMax = iMax;
+	tiTem.iPrice = iPrice;
+	tiTem.isell = ISell;
+
+	return tiTem;
+}
 
 int main()
 {
@@ -644,9 +702,19 @@ int main()
 	g_tLvUpTable[JOB_ARCHER - 1] = CreateLvUp(10,15,5,10,30,60,30,50);
 	g_tLvUpTable[JOB_WIZARD - 1] = CreateLvUp(15,20,3,7,30,40,50,100);
 
-
+	//아이템 판매할 목록을 만들어준다
 	_tagItem tStoreWeapon[STORE_WEAPON_MAX] = {};
 	_tagItem tStoreArmor[STORE_ARMOR_MAX] = {};
+
+	tStoreWeapon[0] = CreateItem("목검", IT_WEAPON, 5, 10, 1000, 500, "나무로 만든칼");
+	tStoreWeapon[1] = CreateItem("롱소드", IT_WEAPON, 100, 150, 15000, 300, "롱소드");
+	tStoreWeapon[2] = CreateItem("존나이순신의 검", IT_WEAPON, 9999, 99999, 999999, 300, "순신리의 검");
+
+	tStoreArmor[0] = CreateItem("천갑옷", IT_WEAPON, 15, 20, 3000, 500, "나무로 만든칼");
+	tStoreArmor[1] = CreateItem("쇠갑옷", IT_WEAPON, 100, 150, 15000, 300, "롱소드");
+	tStoreArmor[2] = CreateItem("창도 못뚫는 방패", IT_WEAPON, 9999, 99999, 999999, 300, "몰라 씹덕아");
+		 
+
 
 
 
@@ -661,6 +729,7 @@ int main()
 			break;
 
 		case MM_STORE:
+			RunStore(&tPlayer.tInventory, tStoreWeapon, tStoreArmor);
 			break;
 
 		case MM_INVENTORY:
