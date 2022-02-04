@@ -69,13 +69,12 @@ enum BATTLE
 #define STORE_WEAPON_MAX 3 // 무기상점 판매개수
 #define STORE_ARMOR_MAX 3 //방어구상점 판매개수
 #define LEVEL_MAX 10
+#define INVENTORY_MAX 20
 
 
 // 레벨업에 필요한 경험치 목록을 만든다 
 
-const int g_iLevelUpExp[LEVEL_MAX] = { 4000, 10000, 20000, 35000, 50000, 70000, 100000, 150000, 200000, 400000 };
 
-_tagLevelUpStatus g_tLvUpTable[JOB_END - 1] = {};
 
 struct _tagItem
 {
@@ -90,13 +89,6 @@ struct _tagItem
 
 };
 
-
-struct _tagInventory
-{
-	_tagItem tItem[INVENTORY_MAX];
-	int iItemiCount;
-	int iGold;
-};
 
 struct _tagPlayer
 {
@@ -137,6 +129,15 @@ struct _tagMonster
 
 };
 
+
+struct _tagInventory
+{
+	_tagItem tItem[INVENTORY_MAX];
+	int iItemiCount;
+	int iGold;
+};
+
+
 struct _tagLevelUpStatus
 {
 	int iAttackMin;
@@ -151,7 +152,9 @@ struct _tagLevelUpStatus
 
 };
 
+const int g_iLevelUpExp[LEVEL_MAX] = { 4000, 10000, 20000, 35000, 50000, 70000, 100000, 150000, 200000, 400000 };
 
+_tagLevelUpStatus g_tLvUpTable[JOB_END - 1] = {};
 
 
 
