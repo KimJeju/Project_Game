@@ -13,6 +13,8 @@ enum MAIN_MENU
 	MM_EXIT
 };
 
+
+//이런
 enum MAP_TYPE
 {
 	MT_NONE,
