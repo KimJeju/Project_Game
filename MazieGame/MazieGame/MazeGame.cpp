@@ -82,6 +82,8 @@ int main()
 
 	if (cinput == 'q' || cinput == 'Q')
 		break;
+	
+	//아 실프다..
 	}
 
 	return 0;
