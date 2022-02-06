@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <conio.h>
 using namespace std;
 
 /*
@@ -37,6 +38,7 @@ void SetMaze(char Maze[21][21])
 
 }
 
+//미로 출력 반복
 void OutPut(char Maze[21][21])
 {
 	for (int i = 0; i < 21; ++i)
@@ -70,8 +72,17 @@ int main()
 	// 미로를 설정한다.
 	SetMaze(strMaze);
 
+	while (true) 
+	{
+	system("cls");
 	// 미로를  출력한다.
 	OutPut(strMaze);
+	cout << "W : 위 S : 아래 A : 왼쪽 D : 오른쪽 Q : 종료";
+	char cinput = _getch();
+
+	if (cinput == 'q' || cinput == 'Q')
+		break;
+	}
 
 	return 0;
 }
