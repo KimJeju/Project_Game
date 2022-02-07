@@ -53,16 +53,16 @@ void SetMaze(char Maze[21][21], PPLAYER pPlayer, PPOINT pStartPos, PPOINT pEndPo
 	pPlayerPos->y = 0;
 	*/
 
-	strcpy_s(Maze[0], "21100000000000000000");
-	strcpy_s(Maze[1], "00111111110000000000");
-	strcpy_s(Maze[2], "00100100011111110000");
-	strcpy_s(Maze[3], "01100100000000010000");
-	strcpy_s(Maze[4], "01000111110001110000");
-	strcpy_s(Maze[5], "01000000001111110000");
-	strcpy_s(Maze[6], "01100000000100000000");
-	strcpy_s(Maze[7], "00100000000111100000");
-	strcpy_s(Maze[8], "01100000000000111100");
-	strcpy_s(Maze[9], "00100011111111100000");
+	strcpy_s(Maze[0],  "21100000000000000000");
+	strcpy_s(Maze[1],  "00111111110000000000");
+	strcpy_s(Maze[2],  "00100100011111110000");
+	strcpy_s(Maze[3],  "01100100000000010000");
+	strcpy_s(Maze[4],  "01000111110001110000");
+	strcpy_s(Maze[5],  "01000000001111110000");
+	strcpy_s(Maze[6],  "01100000000100000000");
+	strcpy_s(Maze[7],  "00100000000111100000");
+	strcpy_s(Maze[8],  "01100000000000111100");
+	strcpy_s(Maze[9],  "00100011111111100000");
 	strcpy_s(Maze[10], "00111100011000000000");
 	strcpy_s(Maze[11], "00001000001000000000");
 	strcpy_s(Maze[12], "00001110001111000000");
@@ -173,7 +173,7 @@ void MoveUp(char Maze[21][21], PPLAYER pPlayer)
 			--pPlayer->tPos.y;
 
 		if (AddiTtem(Maze[pPlayer->tPos.y][pPlayer->tPos.x], pPlayer))
-			Maze[pPlayer->tPos.y][pPlayer->tPos.x] = 1;
+			Maze[pPlayer->tPos.y][pPlayer->tPos.x] = '1';
 
 	}
 }
@@ -193,7 +193,7 @@ void MoveDown(char Maze[21][21], PPLAYER pPlayer)
 			++pPlayer->tPos.y;
 
 		if (AddiTtem(Maze[pPlayer->tPos.y][pPlayer->tPos.x], pPlayer))
-			Maze[pPlayer->tPos.y][pPlayer->tPos.x] = 1;
+			Maze[pPlayer->tPos.y][pPlayer->tPos.x] = '1';
 
 	}
 }
@@ -213,7 +213,7 @@ void MoveLeft(char Maze[21][21], PPLAYER pPlayer)
 			--pPlayer->tPos.x;
 
 		if (AddiTtem(Maze[pPlayer->tPos.y][pPlayer->tPos.x], pPlayer))
-			Maze[pPlayer->tPos.y][pPlayer->tPos.x] = 1;
+			Maze[pPlayer->tPos.y][pPlayer->tPos.x] = '1';
 
 	}
 }
@@ -232,7 +232,7 @@ void MoveRight(char Maze[21][21], PPLAYER pPlayer)
 			++pPlayer->tPos.x;
 
 		if (AddiTtem(Maze[pPlayer->tPos.y][pPlayer->tPos.x], pPlayer))
-			Maze[pPlayer->tPos.y][pPlayer->tPos.x] = 1;
+			Maze[pPlayer->tPos.y][pPlayer->tPos.x] ='1';
 
 	}
 }
@@ -302,7 +302,7 @@ void Fire(char Maze[21][21], PPLAYER pPlayer, PPOINT pBombArr, int* pBombCount)
 			pPlayer->tPos.y = 0;
 		}
 
-		for (int j = 0; j < pPlayer->iBombPower; ++j)
+		for (int j = 1; j <= pPlayer->iBombPower; ++j)
 		{
 			if (pBombArr[i].y - j >= 0)
 			{
@@ -344,13 +344,13 @@ void Fire(char Maze[21][21], PPLAYER pPlayer, PPOINT pBombArr, int* pBombCount)
 
 						int iPrecnt = rand() % 100;
 						if (rand() % iPrecnt < 70)
-							Maze[pBombArr[i].y - j][pBombArr[i].x] = '5';
+							Maze[pBombArr[i].y + j][pBombArr[i].x] = '5';
 
 						else if (rand() % iPrecnt < 80)
-							Maze[pBombArr[i].y - j][pBombArr[i].x] = '6';
+							Maze[pBombArr[i].y + j][pBombArr[i].x] = '6';
 
 						else
-							Maze[pBombArr[i].y - j][pBombArr[i].x] = '7';
+							Maze[pBombArr[i].y + j][pBombArr[i].x] = '7';
 					}
 
 					else
@@ -376,13 +376,13 @@ void Fire(char Maze[21][21], PPLAYER pPlayer, PPOINT pBombArr, int* pBombCount)
 
 						int iPrecnt = rand() % 100;
 						if (rand() % iPrecnt < 70)
-							Maze[pBombArr[i].y - j][pBombArr[i].x] = '5';
+							Maze[pBombArr[i].y][pBombArr[i].x - j] = '5';
 
 						else if (rand() % iPrecnt < 80)
-							Maze[pBombArr[i].y - j][pBombArr[i].x] = '6';
+							Maze[pBombArr[i].y][pBombArr[i].x - j] = '6';
 
 						else
-							Maze[pBombArr[i].y - j][pBombArr[i].x] = '7';
+							Maze[pBombArr[i].y][pBombArr[i].x - j] = '7';
 					}
 
 					else
@@ -407,13 +407,13 @@ void Fire(char Maze[21][21], PPLAYER pPlayer, PPOINT pBombArr, int* pBombCount)
 
 						int iPrecnt = rand() % 100;
 						if (rand() % iPrecnt < 70)
-							Maze[pBombArr[i].y - j][pBombArr[i].x] = '5';
+							Maze[pBombArr[i].y][pBombArr[i].x + j] = '5';
 
-						else if (rand() % iPrecnt < 80)
-							Maze[pBombArr[i].y - j][pBombArr[i].x] = '6';
+						else if (rand() % iPrecnt < 80) 
+							Maze[pBombArr[i].y][pBombArr[i].x + j] = '6';
 
 						else
-							Maze[pBombArr[i].y - j][pBombArr[i].x] = '7';
+							Maze[pBombArr[i].y][pBombArr[i].x + j] = '7';
 					}
 
 					else
