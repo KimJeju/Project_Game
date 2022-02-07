@@ -7,6 +7,8 @@ using namespace std;
 1 : 길
 2 : 시작점
 3 : 도착점
+4 : 폭탄
+5 : 폭탄 이펙트
 */
 
 struct _tagPoint
@@ -69,7 +71,11 @@ void OutPut(char Maze[21][21],PPOINT pPlayerPos)
 	{
 		for (int j = 0; j < 21; ++j)
 		{
-			if (pPlayerPos->x == j && pPlayerPos->y == i)
+
+			if (Maze[i][j] == '4')
+				cout << "♨";
+
+			else if (pPlayerPos->x == j && pPlayerPos->y == i)
 				cout << "☆";
 
 			else if (Maze[i][j] == '0')
@@ -83,6 +89,7 @@ void OutPut(char Maze[21][21],PPOINT pPlayerPos)
 
 			else if (Maze[i][j] == '3')
 				cout << "◎";
+
 		}
 		cout << endl;
 	}
@@ -95,7 +102,7 @@ void MoveUp(char Maze[21][21], PPOINT pPlayerPos)
 	if (pPlayerPos->y - 1 >= 0)
 	{
 		//벽인지 체크한다.
-		if (Maze[pPlayerPos->y - 1][pPlayerPos->x] != '0')
+		if (Maze[pPlayerPos->y - 1][pPlayerPos->x] != '0' && Maze[pPlayerPos->y - 1][pPlayerPos->x] != '4')
 		{
 			--pPlayerPos->y;
 		}
@@ -108,7 +115,7 @@ void MoveDown(char Maze[21][21], PPOINT pPlayerPos)
 	if (pPlayerPos->y + 1 < 21)
 	{
 		//벽인지 체크한다.
-		if (Maze[pPlayerPos->y + 1][pPlayerPos->x] != '0')
+		if (Maze[pPlayerPos->y + 1][pPlayerPos->x] != '0' && Maze[pPlayerPos->y + 1][pPlayerPos->x] != '4')
 		{
 			++pPlayerPos->y;
 		}
@@ -120,7 +127,7 @@ void MoveLeft(char Maze[21][21], PPOINT pPlayerPos)
 	if (pPlayerPos->x - 1 >= 0)
 	{
 		//벽인지 체크한다.
-		if (Maze[pPlayerPos->y][pPlayerPos->x - 1] != '0')
+		if (Maze[pPlayerPos->y][pPlayerPos->x - 1] != '0' && Maze[pPlayerPos->y][pPlayerPos->x - 1] != '4')
 		{
 			--pPlayerPos->x;
 		}
@@ -132,7 +139,7 @@ void MoveRight(char Maze[21][21], PPOINT pPlayerPos)
 	if (pPlayerPos->x + 1 < 20)
 	{
 		//벽인지 체크한다.
-		if (Maze[pPlayerPos->y][pPlayerPos->x + 1] != '0')
+		if (Maze[pPlayerPos->y][pPlayerPos->x + 1] != '0' && Maze[pPlayerPos->y][pPlayerPos->x + 1] != '4')
 		{
 			++pPlayerPos->x;
 		}
@@ -164,6 +171,22 @@ void MovePlayer(char Maze[21][21], PPOINT pPlayerPos, char cinput)
 }
 
 
+// 포인터 변수를 const로 생성하면 가르키는 대상의 값을 변경할 수 있다.
+void CreatBomb(char Maze[21][21],const PPOINT pPlayer, PPOINT pBombArr, int* pBombCount)
+{
+	if (*pBombCount == 5)
+		return;
+
+	for (int i = 0; i < *pBombCount; ++i)
+	{
+		if (pPlayer->x == pBombArr[i].x && pPlayer->y == pBombArr[i].y)
+			return;
+	}
+
+	pBombArr[*pBombCount] = *pPlayer;
+	++(*pBombCount);
+	Maze[pPlayer->y][pPlayer->x] = '4';
+}
 
 
 int main()
@@ -175,6 +198,9 @@ int main()
 	POINT tPlayerPos;
 	POINT tStartPos;
 	POINT tEndPos;
+
+	int iBombCount = 0;
+	POINT tBombPos[5];
 
 	// 미로를 설정한다.
 	SetMaze(strMaze, &tPlayerPos, &tStartPos, &tEndPos);
@@ -191,12 +217,22 @@ int main()
 			break;
 		}
 
+		cout << "t : 폭탄설치 u : 폭탄터트리기" << endl;
 		cout << "W : 위 S : 아래 A : 왼쪽 D : 오른쪽 Q : 종료";
 		char cinput = _getch();
 
 		if (cinput == 'q' || cinput == 'Q')
 			break;
 
+		else if (cinput == 't' || cinput == 'T')
+			CreatBomb(strMaze,&tPlayerPos,tBombPos,&iBombCount);
+
+		else if (cinput == 'u' || cinput == 'U')
+		{
+
+		}
+
+		else
 		MovePlayer(strMaze, &tPlayerPos, cinput);
 
 	}
