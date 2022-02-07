@@ -316,17 +316,15 @@ void Fire(char Maze[21][21], PPLAYER pPlayer, PPOINT pBombArr, int* pBombCount)
 						if (rand() % iPrecnt < 70)
 							Maze[pBombArr[i].y - j][pBombArr[i].x] = '5';
 
-						else if(rand() % iPrecnt < 80)
+						else if (rand() % iPrecnt < 80)
 							Maze[pBombArr[i].y - j][pBombArr[i].x] = '6';
 
-						else if (rand() % iPrecnt < 90)
+						else
 							Maze[pBombArr[i].y - j][pBombArr[i].x] = '7';
-
-
 					}
-				    
+
 					else
-					Maze[pBombArr[i].y - j][pBombArr[i].x] = '1';
+						Maze[pBombArr[i].y - j][pBombArr[i].x] = '1';
 
 				//플레이어가 폭탄에 맞았을 때 시작점으로 보낸다
 				if (pPlayer->tPos.x == pBombArr[i].x && pPlayer->tPos.y == pBombArr[i].y - j)
@@ -340,8 +338,24 @@ void Fire(char Maze[21][21], PPLAYER pPlayer, PPOINT pBombArr, int* pBombCount)
 			if (pBombArr[i].y + j < 20)
 			{
 				if (Maze[pBombArr[i].y + j][pBombArr[i].x] = '0')
-					Maze[pBombArr[i].y + j][pBombArr[i].x] = '1';
+				{
+					if (rand() % 100 < 20)
+					{
 
+						int iPrecnt = rand() % 100;
+						if (rand() % iPrecnt < 70)
+							Maze[pBombArr[i].y - j][pBombArr[i].x] = '5';
+
+						else if (rand() % iPrecnt < 80)
+							Maze[pBombArr[i].y - j][pBombArr[i].x] = '6';
+
+						else
+							Maze[pBombArr[i].y - j][pBombArr[i].x] = '7';
+					}
+
+					else
+						Maze[pBombArr[i].y + j][pBombArr[i].x] = '1';
+				}
 
 				//플레이어가 폭탄에 맞았을 때 시작점으로 보낸다
 				if (pPlayer->tPos.x == pBombArr[i].x && pPlayer->tPos.y == pBombArr[i].y + j)
@@ -355,8 +369,25 @@ void Fire(char Maze[21][21], PPLAYER pPlayer, PPOINT pBombArr, int* pBombCount)
 			if (pBombArr[i].y - j >= 0)
 			{
 				if (Maze[pBombArr[i].y][pBombArr[i].x - j] = '0')
-					Maze[pBombArr[i].y][pBombArr[i].x - j] = '1';
+				{
 
+					if (rand() % 100 < 20)
+					{
+
+						int iPrecnt = rand() % 100;
+						if (rand() % iPrecnt < 70)
+							Maze[pBombArr[i].y - j][pBombArr[i].x] = '5';
+
+						else if (rand() % iPrecnt < 80)
+							Maze[pBombArr[i].y - j][pBombArr[i].x] = '6';
+
+						else
+							Maze[pBombArr[i].y - j][pBombArr[i].x] = '7';
+					}
+
+					else
+						Maze[pBombArr[i].y][pBombArr[i].x - j] = '1';
+				}
 
 				//플레이어가 폭탄에 맞았을 때 시작점으로 보낸다
 				if (pPlayer->tPos.x == pBombArr[i].x - j && pPlayer->tPos.y == pBombArr[i].y)
@@ -370,8 +401,24 @@ void Fire(char Maze[21][21], PPLAYER pPlayer, PPOINT pBombArr, int* pBombCount)
 			if (pBombArr[i].y + j < 20)
 			{
 				if (Maze[pBombArr[i].y][pBombArr[i].x + j] = '0')
-					Maze[pBombArr[i].y][pBombArr[i].x + j] = '1';
+				{
+					if (rand() % 100 < 20)
+					{
 
+						int iPrecnt = rand() % 100;
+						if (rand() % iPrecnt < 70)
+							Maze[pBombArr[i].y - j][pBombArr[i].x] = '5';
+
+						else if (rand() % iPrecnt < 80)
+							Maze[pBombArr[i].y - j][pBombArr[i].x] = '6';
+
+						else
+							Maze[pBombArr[i].y - j][pBombArr[i].x] = '7';
+					}
+
+					else
+						Maze[pBombArr[i].y][pBombArr[i].x + j] = '1';
+				}
 
 				//플레이어가 폭탄에 맞았을 때 시작점으로 보낸다
 				if (pPlayer->tPos.x == pBombArr[i].x + j && pPlayer->tPos.y == pBombArr[i].y)
