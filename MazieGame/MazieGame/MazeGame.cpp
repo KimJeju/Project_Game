@@ -11,6 +11,7 @@ using namespace std;
 5 : 폭탄 이펙트
 */
 
+// x.y축
 struct _tagPoint
 {
 	int x;
@@ -23,6 +24,7 @@ typedef _tagPoint POINT;
 typedef _tagPoint* PPOINT;
 
 
+//미로 만들기 && 플레이어 위치 && 끝 위치 && 시작위치
 void SetMaze(char Maze[21][21], PPOINT pPlayerPos, PPOINT pStartPos, PPOINT pEndPos)
 {
 	pStartPos->x = 0;
@@ -97,6 +99,7 @@ void OutPut(char Maze[21][21],PPOINT pPlayerPos)
 	
 }
 
+//위로 움직이기 위한 함수
 void MoveUp(char Maze[21][21], PPOINT pPlayerPos)
 {
 	if (pPlayerPos->y - 1 >= 0)
@@ -109,7 +112,7 @@ void MoveUp(char Maze[21][21], PPOINT pPlayerPos)
 	}
 }
 
-
+//아래 움직임을 위한 함수
 void MoveDown(char Maze[21][21], PPOINT pPlayerPos)
 {
 	if (pPlayerPos->y + 1 < 21)
@@ -122,6 +125,7 @@ void MoveDown(char Maze[21][21], PPOINT pPlayerPos)
 	}
 }
 
+// 왼쪽 움직임을 위한 함수
 void MoveLeft(char Maze[21][21], PPOINT pPlayerPos)
 {
 	if (pPlayerPos->x - 1 >= 0)
@@ -134,6 +138,7 @@ void MoveLeft(char Maze[21][21], PPOINT pPlayerPos)
 	}
 }
 
+//오른쪽 움직임을 위한 함수
 void MoveRight(char Maze[21][21], PPOINT pPlayerPos)
 {
 	if (pPlayerPos->x + 1 < 20)
@@ -146,6 +151,8 @@ void MoveRight(char Maze[21][21], PPOINT pPlayerPos)
 	}
 }
 
+
+// 키보드 움직임을 위한 함수
 void MovePlayer(char Maze[21][21], PPOINT pPlayerPos, char cinput)
 {
 	switch (cinput)
@@ -172,6 +179,8 @@ void MovePlayer(char Maze[21][21], PPOINT pPlayerPos, char cinput)
 
 
 // 포인터 변수를 const로 생성하면 가르키는 대상의 값을 변경할 수 있다.
+
+//폭탄 설치를 위한 함수
 void CreatBomb(char Maze[21][21],const PPOINT pPlayer, PPOINT pBombArr, int* pBombCount)
 {
 	if (*pBombCount == 5)
