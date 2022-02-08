@@ -149,6 +149,53 @@ void Insert(PLIST pList)
 
 
 	pList->pEnd = pNode;
+
+	++pList->isize;
+}
+
+
+void ClearList(PLIST pList)
+{
+
+	PNODE pNode = pList->pBegin;
+
+	while (pNode != NULL)
+	{
+		PNODE pNext = pNode->pNext;
+		delete pNode;
+		pNode = pNext;
+	}
+
+
+	pList->pBegin = NULL;
+	pList->pEnd = NULL;
+	pList->isize = 0;
+}
+
+
+// const 포인터 이기 때문에 가르키는 대상의 값을 변경할 수 없다.
+void OutPutStudent(const PSTUDENT pStudent)
+{
+	cout << "이름 :" << pStudent->strName << "\t학번 :" << pStudent->iNumber << endl;
+	cout << "국어 :" << pStudent->ikor << "\t영어 :" << pStudent->iEng << endl;
+	cout << "수학 :" << pStudent->iMath << endl;
+	cout << "총점 :" << pStudent->itotal << "\t평균 :" << pStudent->fAvg << endl;
+}
+void OutPut(PLIST pList)
+{
+	system("cls");
+	cout << "=========== 학생출력 ==========" << endl;
+
+	PNODE pNode = pList->pBegin;
+
+	while (pNode != NULL)
+	{
+		OutPutStudent(&pNode->tStudent);
+		pNode = pNode->pNext;
+	}
+
+	cout << "학생수 :" << pList->isize << endl;
+	system("pause");
 }
 
 int main()
@@ -177,9 +224,11 @@ int main()
 		case MM_SEACH:
 			break;
 		case MM_OUTPUT:
+			OutPut(&tList);
 			break;
 		}
 	}
+	ClearList(&tList);
 
 	return 0;
 }
