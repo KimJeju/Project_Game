@@ -273,7 +273,6 @@ void CreatBomb(char Maze[21][21], const PPLAYER pPlayer, PPOINT pBombArr, int* p
 		return;
 
 	else if (Maze[pPlayer->tPos.y][pPlayer->tPos.x] = '0')
-		return;
 
 	for (int i = 0; i < *pBombCount; ++i)
 	{
