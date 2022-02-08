@@ -154,7 +154,7 @@ bool AddiTtem(char cItemType, PPLAYER pPlayer)
 	else if (cItemType == '6')
 	{
 		pPlayer->bWallpush = true;
-		pPlayer->bPushOnOff = true;
+		pPlayer->bPushOnOff =  true;
 		return true;
 	}
 
@@ -180,7 +180,7 @@ void MoveUp(char Maze[21][21], PPLAYER pPlayer)
 		}
 
 		// 벽 밀기가 가능하고 바로 윗칸이 벼긴 경우
-		else if (pPlayer->bWallpush && Maze[pPlayer->tPos.y - 1][pPlayer->tPos.x] != '0')
+		else if (pPlayer->bWallpush && Maze[pPlayer->tPos.y - 1][pPlayer->tPos.x] == '0')
 		{
 			// 벽 밀기가 ON 상태인 경우
 			if (pPlayer->bPushOnOff)
@@ -208,7 +208,7 @@ void MoveUp(char Maze[21][21], PPLAYER pPlayer)
 				}
 			}
 			// 벽 밀기 OFF 상태일 경우
-			if (pPlayer->bTransparency)
+			else if (pPlayer->bTransparency)
 				--pPlayer->tPos.y;
 		}
 
@@ -449,10 +449,10 @@ void Fire(char Maze[21][21], PPLAYER pPlayer, PPOINT pBombArr, int* pBombCount)
 					{
 
 						int iPrecnt = rand() % 100;
-						if (rand() % iPrecnt < 70)
+						if (rand() % iPrecnt < 20)
 							Maze[pBombArr[i].y][pBombArr[i].x + j] = '5';
 
-						else if (rand() % iPrecnt < 80)
+						else if (rand() % iPrecnt < 10)
 							Maze[pBombArr[i].y][pBombArr[i].x + j] = '6';
 
 						else
