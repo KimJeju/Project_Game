@@ -22,7 +22,7 @@ typedef struct _tagStudent
 	int iMath;
 	int itotal;
 	float fAvg;
-}STUENT, * PSTUDENT;
+}STUDENT, * PSTUDENT;
 
 /*
 링크드리스트 : 자료구조의 한 종류이다. 자료구조란 데이터를 관리하는 방법을 이야기 한다.
@@ -40,7 +40,7 @@ typedef struct _tagStudent
 //리스트를 만든다.
 typedef struct _tagNode
 {
-	STUENT tStudent;
+	STUDENT tStudent;
 	_tagNode *pNext;
 }NODE, *PNODE;
 
@@ -66,6 +66,14 @@ int InputInt()
 	}
 
 	return iInput;
+}
+
+void InputString(char* pString, int iSIze)
+{
+	//이름을 띄어쓰는 에러버퍼를 지우기 위한 clear.igore
+	cin.clear();
+	cin.ignore(1024, '\n');
+	cin.getline(pString, iSIze - 1);
 }
 
 void initList(PLIST pList)
@@ -97,6 +105,51 @@ int OutPutMenu()
 	return iInput;
 }
 
+void Insert(PLIST pList)
+{
+	system("cls");
+	cout << "=========== 학생추가 ==========" << endl;
+	STUDENT tStudent = {};
+
+	cout << "이름 :";
+	InputString(tStudent.strName, NAME_SIZE);
+
+
+	cout << "학번 :";
+	tStudent.iNumber = InputInt();
+
+	cout << "국어 :";
+	tStudent.ikor = InputInt();
+
+	cout << "영어 :";
+	tStudent.iEng = InputInt();
+
+	cout << "수학 :";
+	tStudent.iMath = InputInt();
+
+	tStudent.itotal = tStudent.ikor + tStudent.iEng + tStudent.iMath;
+	tStudent.fAvg = tStudent.itotal / 3.f;
+
+	//추가할 리스트 노드를 생성한다.
+
+	PNODE pNode = new NODE;
+
+
+	//현재 추가하는 노드는 가장 마지막에 추가할 노드기 떄문에 다음 노드가 존재하지 않는다.
+	//그로므로 다음 노드는 NULL로 초기화 하고 정보는 뒤에서 입력받은 학생 정보를 주도록 한다.
+	pNode->pNext = NULL;
+	pNode->tStudent = tStudent;
+
+
+	if (pList->pBegin == NULL)
+		pList->pBegin = pNode;
+
+	else
+		pList->pEnd->pNext = pNode;
+
+
+	pList->pEnd = pNode;
+}
 
 int main()
 {
@@ -115,6 +168,7 @@ int main()
 		switch (iMenu)
 		{
 		case MM_INSERT:
+			Insert(&tList);
 			break;
 
 		case MM_DELETE:
