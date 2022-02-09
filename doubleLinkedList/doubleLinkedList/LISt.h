@@ -52,7 +52,7 @@ typedef struct _tagList
 
 
 
-int InputInt()
+static int InputInt()
 {
 	int iInput;
 	cin >> iInput;
@@ -68,7 +68,7 @@ int InputInt()
 }
 
 
-void InputString(char* pString, int iSIze)
+static void InputString(char* pString, int iSIze)
 {
 	//이름을 띄어쓰는 에러버퍼를 지우기 위한 clear.igore
 	cin.clear();

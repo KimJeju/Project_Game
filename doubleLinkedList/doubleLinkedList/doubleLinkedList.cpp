@@ -69,7 +69,6 @@ int main()
 		}
 	}
 	DestroyList(&tList);
-	return 0;
 
 }
 

@@ -109,13 +109,60 @@ void Pust_Front()
 
 void OutPut(PLIST pList)
 {
-	system("cls");
-	cout << "=========== 학생출력 ==========" << endl;
-	cout << "1.정방향 출력" << endl;
-	cout << "2.역방향 출력" << endl;
-	cout << "메뉴를 선탁하세요 :";
-	int iMenu = InputInt();
+
+	int iMenu;
+
+	while (true)
+	{
+
+		system("cls");
+		cout << "=========== 학생출력 ==========" << endl;
+		cout << "1.정방향 출력" << endl;
+		cout << "2.역방향 출력" << endl;
+		cout << "메뉴를 선탁하세요 :";
+		iMenu = InputInt();
+
+		if (iMenu >= OT_NONE && iMenu <= OT_INVERSE)
+			break;
+	}
+
+	PNODE pNode = NULL;
+
+	switch (iMenu)
+	{
+		case
+		OT_OUTPUT:
+		// 추가되는 노느들은 begin 과 End 사이에 배치된다. 그러므로 begin에 다음 노드를 얻어온다.
+		pNode = pList->bBegin->pNext;
+
+		while (pNode != pList->bEnd)
+		{
+			OutPutStudent(&pNode->tStudent);
+			pNode = pNode->pNext;
+
+			break;
+		}
+
+		case
+		OT_INVERSE:
+		// 역방향으로 출력을 할 때는 enddp 이전 노드를 얻어오고 계속 이전 노드로 진행한다
+		// begin과 같아질 경우 반복을 종료한다
+			pNode = pList->bEnd->pPrev;
+
+			//역방향으로 들어가기 떄문에 노드가 begin과 같아지면 더이상 출력할 노드가 없으므로 반복을 종료한다.
+			while (pNode != pList->bBegin)
+			{
+				OutPutStudent(&pNode->tStudent);
+				pNode = pNode->pPrev;
+			}
+
+		break;
+	}
+
+	cout << "학생수 :" << pList->iSize << endl;
+	system("pause");
+	}
 
 
-}
+
 
