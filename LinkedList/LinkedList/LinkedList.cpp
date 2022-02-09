@@ -198,6 +198,36 @@ void OutPut(PLIST pList)
 	system("pause");
 }
 
+
+void Search(PLIST pList)
+{
+
+	system("cls");
+	cout << "=========== 학생탐색 ==========" << endl;
+
+	cout << "선택할 이름을 입력하세요" << endl;
+
+	char strName[NAME_SIZE] = {};
+	InputString(strName, NAME_SIZE);
+
+	PNODE pNode = pList->pBegin;
+
+	while (pNode != NULL)
+	{
+		if (strcmp(pNode->tStudent.strName, strName) == 0)
+		{
+			OutPutStudent(&pNode->tStudent);
+			system("pasue");
+			return;
+		}
+
+		pNode = pNode->pNext;
+	}
+
+
+
+}
+
 int main()
 {
 
@@ -222,6 +252,7 @@ int main()
 			break;
 
 		case MM_SEACH:
+			Search(&tList);
 			break;
 		case MM_OUTPUT:
 			OutPut(&tList);
