@@ -53,15 +53,15 @@ int main()
 		switch (iMenu)
 		{
 		case MM_INSERT:
-			Insert(&tList);
+			Pust_Back(&tList);
 			break;
 
 		case MM_DELETE:
-			Delete(&tList);
+		//	Delete(&tList);
 			break;
 
 		case MM_SEACH:
-			Search(&tList);
+		//	Search(&tList);
 			break;
 		case MM_OUTPUT:
 			OutPut(&tList);

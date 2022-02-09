@@ -1,6 +1,15 @@
 #include "LISt.h"
 using namespace std;
 
+void OutPutStudent(const PSTUDENT pStudent)
+{
+	cout << "이름 :" << pStudent->strName << "\t학번 :" << pStudent->iNumber << endl;
+	cout << "국어 :" << pStudent->ikor << "\t영어 :" << pStudent->iEng << endl;
+	cout << "수학 :" << pStudent->iMath << endl;
+	cout << "총점 :" << pStudent->itotal << "\t평균 :" << pStudent->fAvg << endl;
+}
+
+
 // 리스트 초기화
 void InitLIst(PLIST pList)
 {
@@ -39,11 +48,74 @@ void DestroyList(PLIST pList)
 	pList->bEnd = NULL;
 }
 
-void Pust_Back()
+
+
+void Pust_Back(PLIST pList)
 {
+	system("cls");
+	cout << "=========== 학생추가 ==========" << endl;
+	STUDENT tStudent = {};
+
+	cout << "이름 :";
+	InputString(tStudent.strName, NAME_SIZE);
+
+
+	cout << "학번 :";
+	tStudent.iNumber = InputInt();
+
+	cout << "국어 :";
+	tStudent.ikor = InputInt();
+
+	cout << "영어 :";
+	tStudent.iEng = InputInt();
+
+	cout << "수학 :";
+	tStudent.iMath = InputInt();
+
+	tStudent.itotal = tStudent.ikor + tStudent.iEng + tStudent.iMath;
+	tStudent.fAvg = tStudent.itotal / 3.f;
+
+
+	PNODE pNode = new NODE;
+
+	pNode->tStudent = tStudent;
+
+	// 새로 추가되는 노드는 END 노드에 이전 노드와 END 노드 사이에 추가 되어야 한다.
+	// 그래서 END의 prev 노드를 구해놓는다 .
+	PNODE pPrev = pList->bEnd->pPrev;
+	
+
+	// pENd 노드 이전 노드의 다음으로 추가할 노드를 지정한다.
+	pNode->pNext = pNode;
+	
+	// 추가할 노드의 이전 노들 End의 이전 노드를 지정한다.
+	pNode->pPrev = pPrev;
+
+	// 새로 추가할 노드의 다음노드를 pEnd에 연결한다.
+	pNode->pNext = pList->bEnd;
+
+	// pEnd 노드의 이전 노드로 새로 추가할 노드를 지정한다.
+	pList->bEnd->pPrev = pNode;
+
+	++pList->iSize;
+
+
 }
+
 
 void Pust_Front()
 {
+}
+
+void OutPut(PLIST pList)
+{
+	system("cls");
+	cout << "=========== 학생출력 ==========" << endl;
+	cout << "1.정방향 출력" << endl;
+	cout << "2.역방향 출력" << endl;
+	cout << "메뉴를 선탁하세요 :";
+	int iMenu = InputInt();
+
+
 }
 

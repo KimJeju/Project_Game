@@ -7,6 +7,14 @@ using namespace std;
 
 // 헤더파일에는 보통함수 선언부분을 만들어준다.
 
+enum OUTPUT_TYPE
+{
+	OT_NONE,
+	OT_OUTPUT,
+	OT_INVERSE,
+};
+
+
 #define NAME_SIZE 32
 
 
@@ -71,5 +79,7 @@ void InputString(char* pString, int iSIze)
 void InitLIst(PLIST pList);
 //void CLearList(PLIST pLIst);
 void DestroyList(PLIST pList);
-void Pust_Back();
-void Pust_Front();
+void Pust_Back(PLIST pList);
+void Pust_Front(PLIST pList);
+void OutPutStudent(const PSTUDENT pStudent);
+void OutPut(PLIST pList);
