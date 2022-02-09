@@ -245,10 +245,43 @@ void Delete(PLIST pList)
 	{
 		if (strcmp(pNode->tStudent.strName, strName) == 0)
 		{
+			cout << strName << "학생삭제" << endl;
 			//지울 노드에 다음 노드를 얻어온다.
-			PNODE pNext = pNode->pNext
+			PNODE pNext = pNode->pNext;
+
+			//만약 이전 노드가 NULL이라면 제일 첫번째 노드를 지운다는 의미이다.
+			if (pPrev == NULL)
+			{
+				delete pNode;
+				pList->pBegin = pNext;
+
+				if (pNext == NULL)
+					pList->pEnd = NULL;
+			}
+
+			// 이전 노드가 있을 경우에는 이전 노드에 다음을 지운 노드의 다음으로 연결해준다
+			else
+			{
+				delete pNode;
+				pPrev->pNext = pNext;
+
+				if (pNext == NULL)
+					pList->pEnd = pPrev;
+			}
+
+			cout << strName << "학생 삭제완료" << endl;
+
+			--pList->isize;
+			system("pause");
+			return;
 		}
+		// 해당 학생이 아니라면 현재 노드가 이전 노드가 된다
+		pPrev = pNode;
+		pNode = pNode->pNext;
 	}
+
+	cout << "삭제할 학생을 찾을 수 없습니다" << endl;
+	system("pause");
 }
 
 
