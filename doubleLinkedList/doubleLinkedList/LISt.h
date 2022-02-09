@@ -83,3 +83,5 @@ void Pust_Back(PLIST pList);
 void Pust_Front(PLIST pList);
 void OutPutStudent(const PSTUDENT pStudent);
 void OutPut(PLIST pList);
+void Search(PLIST pList);
+void DELETE(PLIST pList);

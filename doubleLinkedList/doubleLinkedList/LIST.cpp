@@ -163,6 +163,63 @@ void OutPut(PLIST pList)
 	system("pause");
 	}
 
+void Search(PLIST pList)
+{
+	system("cls");
+	cout << "============ 학생탐색 =============" << endl;
+	char strName[NAME_SIZE] = {};
+	InputString(strName, NAME_SIZE);
+
+	PNODE pNode = pList->bBegin->pNext;
+
+	while (pNode != pList->bEnd)
+	{
+		if (strcmp(pNode->tStudent.strName, strName) == 0)
+		{
+			OutPutStudent(&pNode->tStudent);
+			system("pause");
+			return;
+		}
+
+		pNode = pNode->pNext;
+	}
+
+	cout << "학생을 찾을 수 없습니다" << endl;
+	system("pause");
+}
+
+void DELETE(PLIST pList)
+{
+
+	system("cls");
+	cout << "============ 학생삭제 =============" << endl;
+	char strName[NAME_SIZE] = {};
+	InputString(strName, NAME_SIZE);
+
+	PNODE pNode = pList->bBegin->pNext;
+
+	while (pNode != pList->bEnd)
+	{
+		if (strcmp(pNode->tStudent.strName, strName) == 0)
+		{
+			//현재 지울 노드의 이전노드의 다음은 현재 지울 노드로 되어있다.
+			//그런데 지울 노드는 지워져야 하기때문에 이전 노드에 다음 노드를 지울 노드의 다음 노드로 준다.
+			//다음 노드의 이전은 현재노드인데 이전 노드로 준다
+			pNode->pPrev->pNext = pNode->pNext;
+			pNode->pNext->pPrev = pNode->pPrev;
+			delete pNode;
+			--pList->iSize;
+			cout << strName << "학생을 삭제하였습니다" << endl;
+			system("pause");
+			return;
+		}
+
+		pNode = pNode->pNext;
+	}
+	cout << "삭제할 대상이 없습니다" << endl;
+	system("pause");
+}
+
 
 
 

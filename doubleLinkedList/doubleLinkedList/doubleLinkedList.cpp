@@ -57,11 +57,11 @@ int main()
 			break;
 
 		case MM_DELETE:
-		//	Delete(&tList);
+			DELETE(&tList);
 			break;
 
 		case MM_SEACH:
-		//	Search(&tList);
+			Search(&tList);
 			break;
 		case MM_OUTPUT:
 			OutPut(&tList);
