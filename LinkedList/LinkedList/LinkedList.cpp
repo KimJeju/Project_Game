@@ -205,7 +205,7 @@ void Search(PLIST pList)
 	system("cls");
 	cout << "=========== 학생탐색 ==========" << endl;
 
-	cout << "선택할 이름을 입력하세요" << endl;
+	cout << "탐색할 이름을 입력하세요";
 
 	char strName[NAME_SIZE] = {};
 	InputString(strName, NAME_SIZE);
@@ -217,16 +217,41 @@ void Search(PLIST pList)
 		if (strcmp(pNode->tStudent.strName, strName) == 0)
 		{
 			OutPutStudent(&pNode->tStudent);
-			system("pasue");
+			system("pause");
 			return;
 		}
 
 		pNode = pNode->pNext;
 	}
-
-
-
+	cout << "학생이 없습니다" << endl;
+	system("pause");
 }
+
+
+void Delete(PLIST pList)
+{
+	system("cls");
+	cout << "=========== 학생삭제 ==========" << endl;
+
+	cout << "삭제할 이름을 입력하세요";
+
+	char strName[NAME_SIZE] = {};
+	InputString(strName, NAME_SIZE);
+
+	PNODE pNode = pList->pBegin;
+	PNODE pPrev = NULL;
+
+	while (pNode != NULL)
+	{
+		if (strcmp(pNode->tStudent.strName, strName) == 0)
+		{
+			//지울 노드에 다음 노드를 얻어온다.
+			PNODE pNext = pNode->pNext
+		}
+	}
+}
+
+
 
 int main()
 {
@@ -249,6 +274,7 @@ int main()
 			break;
 
 		case MM_DELETE:
+			Delete(&tList);
 			break;
 
 		case MM_SEACH:
