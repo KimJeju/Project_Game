@@ -15,26 +15,26 @@ void InitLIst(PLIST pList)
 {
 	pList->iSize = 0;
 
-	pList->bBegin = new NODE;
-	pList->bEnd = new NODE;
+	pList->pBegin = new NODE;
+	pList->pEnd = new NODE;
 
 	// 시작 노드의 다음 노드는 마지막 노드이다
-	pList->bBegin->pNext = pList->bEnd;
+	pList->pBegin->pNext = pList->pEnd;
 
 	// 마지막 노드의 이전 노드는 시작 노드이다.
-	pList->bEnd->pPrev = pList->bBegin;
+	pList->pEnd->pPrev = pList->pBegin;
 
 	// 마지막 노드에 다음 노드는 없으므로 NULL
-	pList->bEnd->pNext = NULL;
+	pList->pEnd->pNext = NULL;
 
 	// 시작 노드에 이전 노드는 없으므로 NULL
-	pList->bBegin->pPrev = NULL;
+	pList->pBegin->pPrev = NULL;
 
 }
 
 void DestroyList(PLIST pList)
 {
-	PNODE pNode = pList->bBegin;
+	PNODE pNode = pList->pBegin;
 
 	while (pNode != NULL)
 	{
@@ -44,8 +44,8 @@ void DestroyList(PLIST pList)
 	}
 
 	pList->iSize = 0;
-	pList->bBegin = NULL;
-	pList->bEnd = NULL;
+	pList->pBegin = NULL;
+	pList->pEnd = NULL;
 }
 
 
@@ -82,7 +82,7 @@ void Pust_Back(PLIST pList)
 
 	// 새로 추가되는 노드는 END 노드에 이전 노드와 END 노드 사이에 추가 되어야 한다.
 	// 그래서 END의 prev 노드를 구해놓는다 .
-	PNODE pPrev = pList->bEnd->pPrev;
+	PNODE pPrev = pList->pEnd->pPrev;
 	
 
 	// pENd 노드 이전 노드의 다음으로 추가할 노드를 지정한다.
@@ -92,10 +92,10 @@ void Pust_Back(PLIST pList)
 	pNode->pPrev = pPrev;
 
 	// 새로 추가할 노드의 다음노드를 pEnd에 연결한다.
-	pNode->pNext = pList->bEnd;
+	pNode->pNext = pList->pEnd;
 
 	// pEnd 노드의 이전 노드로 새로 추가할 노드를 지정한다.
-	pList->bEnd->pPrev = pNode;
+	pList->pEnd->pPrev = pNode;
 
 	++pList->iSize;
 
@@ -133,9 +133,9 @@ void OutPut(PLIST pList)
 		case
 		OT_OUTPUT:
 		// 추가되는 노느들은 begin 과 End 사이에 배치된다. 그러므로 begin에 다음 노드를 얻어온다.
-		pNode = pList->bBegin->pNext;
+		pNode = pList->pBegin->pNext;
 
-		while (pNode != pList->bEnd)
+		while (pNode != pList->pEnd)
 		{
 			OutPutStudent(&pNode->tStudent);
 			pNode = pNode->pNext;
@@ -147,10 +147,10 @@ void OutPut(PLIST pList)
 		OT_INVERSE:
 		// 역방향으로 출력을 할 때는 enddp 이전 노드를 얻어오고 계속 이전 노드로 진행한다
 		// begin과 같아질 경우 반복을 종료한다
-			pNode = pList->bEnd->pPrev;
+			pNode = pList->pEnd->pPrev;
 
 			//역방향으로 들어가기 떄문에 노드가 begin과 같아지면 더이상 출력할 노드가 없으므로 반복을 종료한다.
-			while (pNode != pList->bBegin)
+			while (pNode != pList->pBegin)
 			{
 				OutPutStudent(&pNode->tStudent);
 				pNode = pNode->pPrev;
@@ -172,9 +172,9 @@ void Search(PLIST pList)
 	char strName[NAME_SIZE] = {};
 	InputString(strName, NAME_SIZE);
 
-	PNODE pNode = pList->bBegin->pNext;
+	PNODE pNode = pList->pBegin->pNext;
 
-	while (pNode != pList->bEnd)
+	while (pNode != pList->pEnd)
 	{
 		if (strcmp(pNode->tStudent.strName, strName) == 0)
 		{
@@ -199,9 +199,9 @@ void DELETE(PLIST pList)
 	char strName[NAME_SIZE] = {};
 	InputString(strName, NAME_SIZE);
 
-	PNODE pNode = pList->bBegin->pNext;
+	PNODE pNode = pList->pBegin->pNext;
 
-	while (pNode != pList->bEnd)
+	while (pNode != pList->pEnd)
 	{
 		if (strcmp(pNode->tStudent.strName, strName) == 0)
 		{
@@ -241,17 +241,74 @@ void Sort(PLIST pList)
 		return;
 	}
 	
-	PNODE pFirst = pList->bBegin->pNext;
+	PNODE pFirst = pList->pBegin->pNext;
 	PNODE pSecond = pFirst->pNext;
 
-	while (pFirst != pList->bEnd->pPrev)
-	{
-		while (pSecond != pList->bEnd)
-		{
 
+	//First 는 End의 이전 노드와 같아지게 되면 더이상 비교할 노드가 없으므로 종료한다
+	while (pFirst != pList->pEnd->pPrev)
+	{
+		//second 는 무조건 first 노드 다음 노드부터  검사를 시작한다.
+		pSecond = pFirst->pNext;
+		while (pSecond != pList->pEnd)
+		{
+			bool bSwap = false;
+
+			//second는 End 이전 까지 반복해야 하므로 ENd가 아닐동안만 반복한다.
+			switch (iInput)
+			{
+			case ST_NUMBER:
+				if (pFirst->tStudent.iNumber > pSecond->tStudent.iNumber)
+					bSwap = true;
+				break;
+
+			case ST_AVG:
+				if (pFirst->tStudent.fAvg > pSecond->tStudent.fAvg)
+					bSwap = true;
+				break;
+			}
+
+			//bool변수 bSwap이 true 일 경우 두 노드를 바꿔야한다.
+
+			if (bSwap == true)
+			{
+				// FIrst 노드에 이전과 다음 노드를 저장한다.
+				PNODE pFirstPrev = pFirst->pPrev;
+				PNODE pFirstNext = pFirst->pNext;
+
+				//Second 노드에 이전과 다음 노드를 저장한다.
+				PNODE pSecondPrev = pSecond->pPrev;
+				PNODE pSecondNext = pSecond->pNext;
+
+				// 두 노드를 바꿔준다.
+				PNODE pTemp = pFirst;
+				pFirst = pSecond;
+				pSecond = pTemp;
+
+
+
+				// 위에서 두 노드가 서로 바꼈으므로 연결되어있던 pNext 와 pPrev 도 바꿔주어야한다.
+				// 그래서 pFirtstPrev 노드의 다음 노드로 바뀐 pFirst를 저장하고
+				// 바뀐 pFirst 의 이전 노드로 pFirstPrev 노드를 지정해준다.
+
+				// 다음 노드들도 마찬가지로 교체해 준다.
+				pFirstPrev->pNext = pFirst;
+				pFirst->pPrev = pFirstPrev;
+
+				pFirstNext->pPrev = pFirst;
+				pFirst->pNext = pFirstPrev;
+
+				pSecondPrev->pNext = pSecond;
+				pSecond->pPrev = pSecondPrev;
+
+				pSecondNext->pPrev = pFirst;
+				pSecond->pNext = pSecondPrev;
+			}
 		}
 	}
 
+	cout << "정렬이 완료되었습니다." << endl;
+	system("pause");
 
 
 

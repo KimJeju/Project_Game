@@ -12,6 +12,7 @@ enum MAIN_MENU
 	MM_DELETE,
 	MM_SEACH,
 	MM_OUTPUT,
+	MM_SORT,
 	MM_EXIT
 };
 
@@ -65,6 +66,10 @@ int main()
 			break;
 		case MM_OUTPUT:
 			OutPut(&tList);
+			break;
+
+		case MM_SORT:
+			Sort(&tList);
 			break;
 		}
 	}

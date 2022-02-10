@@ -52,8 +52,8 @@ typedef struct _tagList
 {
 	// pbegin 과 pEnd 는 명시적으로 처음과 끝을 의미하도록 만든다.
 	// 실제 데이터를 저장하는 노드는 아니다. 실제 데이터를 저장하는 노드는 bBegin과 bEnd 사이에 존재하게 만들어 준다
-	PNODE bBegin;
-	PNODE bEnd;
+	PNODE pBegin;
+	PNODE pEnd;
 	int iSize;
 }LIST, * PLIST;
 
