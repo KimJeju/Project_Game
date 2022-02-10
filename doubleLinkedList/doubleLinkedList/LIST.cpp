@@ -40,7 +40,7 @@ void DestroyList(PLIST pList)
 	{
 		PNODE pNext = pNode->pNext;
 		delete pNext;
-		pNode = pNext;
+		pNode = pNode->pNext;
 	}
 
 	pList->iSize = 0;
@@ -166,7 +166,9 @@ void OutPut(PLIST pList)
 void Search(PLIST pList)
 {
 	system("cls");
-	cout << "============ 학생탐색 =============" << endl;
+	cout << "============ 학생탐색 ==========" << endl;
+
+	cout << "탐색할 이름을 입력하세요 ;";
 	char strName[NAME_SIZE] = {};
 	InputString(strName, NAME_SIZE);
 
@@ -181,12 +183,13 @@ void Search(PLIST pList)
 			return;
 		}
 
-		pNode = pNode->pNext;
+		pNode = pNode->pNext; 
 	}
 
-	cout << "학생을 찾을 수 없습니다" << endl;
-	system("pause");
+	cout << "학생을 찾을 수 없습니다." << endl;
+	system("Pause");
 }
+
 
 void DELETE(PLIST pList)
 {
@@ -218,6 +221,40 @@ void DELETE(PLIST pList)
 	}
 	cout << "삭제할 대상이 없습니다" << endl;
 	system("pause");
+}
+
+void Sort(PLIST pList)
+{
+
+	system("cls");
+	cout << "============ 학생정렬 =============" << endl;
+
+	cout << "1, 학점기준" << endl;
+	cout << "2. 평균기준" << endl;
+	cout << "메뉴를 선택하세요 :";
+	int iInput = InputInt();
+
+	if (iInput <= ST_NONE || iInput > ST_AVG)
+	{
+		cout << "잘못 선택하였습니다." << endl;
+		system("pause");
+		return;
+	}
+	
+	PNODE pFirst = pList->bBegin->pNext;
+	PNODE pSecond = pFirst->pNext;
+
+	while (pFirst != pList->bEnd->pPrev)
+	{
+		while (pSecond != pList->bEnd)
+		{
+
+		}
+	}
+
+
+
+
 }
 
 

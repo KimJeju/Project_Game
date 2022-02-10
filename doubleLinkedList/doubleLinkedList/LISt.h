@@ -14,6 +14,13 @@ enum OUTPUT_TYPE
 	OT_INVERSE,
 };
 
+enum SORT_TYPE
+{
+	ST_NONE,
+	ST_NUMBER,
+	ST_AVG
+};
+
 
 #define NAME_SIZE 32
 
@@ -85,3 +92,4 @@ void OutPutStudent(const PSTUDENT pStudent);
 void OutPut(PLIST pList);
 void Search(PLIST pList);
 void DELETE(PLIST pList);
+void Sort(PLIST pList);
