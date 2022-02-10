@@ -43,13 +43,17 @@ void SetMaze(char Maze[21][21], PPLAYER pPlayer, PPOINT pStartPos, PPOINT pEndPo
 	// MazeList.txt 파일을 읽어와서 미로 목록을 만든다.
 	FILE* pFile = NULL;
 
-	fopen_s(&pFile, "MazeList.txt", "rt");
+	fopen_s(&pFile, "MazeLIst.txt", "rt");
 
 	if (pFile)
 	{
 		char cConut;
 
 		fread(&cConut, 1, 1, pFile);
+
+		int iMazeCount = atoi(&cConut);
+
+		for (int i = 0; i < iMazeCount; ++i)
 
 		fclose(pFile);
 	}
@@ -81,7 +85,7 @@ void SetMaze(char Maze[21][21], PPLAYER pPlayer, PPOINT pStartPos, PPOINT pEndPo
 	strcpy_s(Maze[10], "00111100011000000000");
 	strcpy_s(Maze[11], "00001000001000000000");
 	strcpy_s(Maze[12], "00001110001111000000");
-	strcpy_s(Maze[13], "00000010000001110000");
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      	strcpy_s(Maze[13], "00000010000001110000");
 	strcpy_s(Maze[14], "00011110000000010000");
 	strcpy_s(Maze[15], "00110000000111110000");
 	strcpy_s(Maze[16], "00100000000100000000");
