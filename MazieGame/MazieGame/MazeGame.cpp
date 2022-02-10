@@ -40,6 +40,20 @@ typedef struct _tagPlayer
 //미로 만들기 && 플레이어 위치 && 끝 위치 && 시작위치
 void SetMaze(char Maze[21][21], PPLAYER pPlayer, PPOINT pStartPos, PPOINT pEndPos)
 {
+	// MazeList.txt 파일을 읽어와서 미로 목록을 만든다.
+	FILE* pFile = NULL;
+
+	fopen_s(&pFile, "MazeList.txt", "rt");
+
+	if (pFile)
+	{
+		char cConut;
+
+		fread(&cConut, 1, 1, pFile);
+
+		fclose(pFile);
+	}
+
 	pStartPos->x = 0;
 	pStartPos->y = 0;
 
