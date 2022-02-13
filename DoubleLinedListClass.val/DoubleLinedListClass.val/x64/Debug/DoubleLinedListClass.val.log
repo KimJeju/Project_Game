@@ -1,0 +1,5 @@
+﻿  DoubleLinedListClass.val.cpp
+C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\DoubleLinedListClass.val\DoubleLinedListClass.val\DoubleLinedListClass.val.cpp(23,1): error C2248: 'CListNode::CListNode': private 멤버('CListNode' 클래스에서 선언)에 액세스할 수 없습니다.
+C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\DoubleLinedListClass.val\DoubleLinedListClass.val\DoubleLinedListClass.val.cpp(6): message : 'CListNode::CListNode' 선언을 참조하십시오.
+C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\DoubleLinedListClass.val\DoubleLinedListClass.val\DoubleLinedListClass.val.cpp(4): message : 'CListNode' 선언을 참조하십시오.
+C:\Users\kings\Dropbox\내 PC (DESKTOP-T269FTJ)\Desktop\C PROJECT\Project_Game\DoubleLinedListClass.val\DoubleLinedListClass.val\DoubleLinedListClass.val.cpp(23,12): error C2659: '=': 함수를 왼쪽 피연산자로 사용했습니다.
